@@ -1,15 +1,15 @@
 {
   "id": "./",
-  "name": "Divya Kshetra Yatra — 108 Divya Desams",
-  "short_name": "Divya Yatra",
-  "description": "Track Divya Desam visits, notes, photos, maps and hymns.",
+  "name": "Divya Desams — 108 Sacred Abodes of Lord Vishnu",
+  "short_name": "Divya Desams",
+  "description": "Explore and track visits to the 108 Divya Desams. Save notes and photos, open maps, and watch the YouTube playlist.",
   "lang": "en-IN",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#1b0a06",
-  "theme_color": "#1b0a06",
+  "background_color": "#fff8ed",
+  "theme_color": "#fff8ed",
   "icons": [
     {
       "src": "./icon-192.png",
