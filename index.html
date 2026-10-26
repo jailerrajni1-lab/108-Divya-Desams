@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#fff8ed">
-<meta name="description" content="Divya Kshetra Yatra — track all 108 Divya Desams with maps, Google directions, visit progress and Velukkudi discourses.">
-<title>Divya Kshetra Yatra — 108 Divya Desam Tracker</title>
+<meta name="description" content="Divya Desams — explore the 108 sacred abodes of Lord Vishnu, track your yatra, save temple photos and use maps and the YouTube playlist.">
+<title>Divya Desams — 108 Sacred Abodes of Lord Vishnu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -270,23 +270,51 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 .detailFacts{display:grid;grid-template-columns:80px 1fr;gap:.45rem .7rem;font-size:.86rem}.detailFacts b{color:#9a681f}.detailFacts span{color:#4f4336}.sectionLabel{font-size:.7rem;font-weight:800;letter-spacing:.12em;color:#a86627;text-transform:uppercase;margin:.3rem 0}
 @media(max-width:760px){.homeGrid{grid-template-columns:1fr}#homeMap{height:300px}.discourseHero{grid-template-columns:1fr}.cbody{padding:1rem}.deck{height:auto;min-height:700px}.cgrid{grid-template-columns:1fr}.cphoto{height:240px}.tcard{position:relative;min-height:700px}.stage{margin-bottom:1rem}}
 
+
+/* ---------- Divya Desams v6: devotional header, mobile navigation, search and settings ---------- */
+.appIcon{width:68px;height:68px;object-fit:contain;flex:none;border-radius:18px;filter:drop-shadow(0 4px 7px #8a5a1625)}
+.brand h1{font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.025em;color:#7b4d13;margin-bottom:.15rem}
+.brand .slogan{font-size:.86rem;font-weight:800;color:#8b591b;letter-spacing:.035em;margin-top:.2rem}
+.brand .mantra{font-family:var(--disp);font-size:1.06rem;font-weight:700;color:#a36d21;margin-top:.1rem;line-height:1.15}
+.brand small{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#78664f;opacity:.95;margin-top:.24rem}
+.hwrap{gap:.85rem;align-items:center}
+.exploreHead{padding:.2rem .2rem .85rem}.exploreHead h2{font-family:var(--disp);font-size:1.8rem;color:#8b591b}.exploreHead p,.helperText{color:#756653;font-size:.86rem;line-height:1.6;margin-top:.25rem}
+.searchPanel{max-width:900px;margin:1rem auto}.searchLarge{display:flex;align-items:center;gap:.65rem;border:1px solid #e3cfab;border-radius:13px;background:#fffaf0;padding:0 .9rem;margin:1rem 0}.searchLarge span{font-size:1.5rem;color:#99661f}.searchLarge input{width:100%;padding:.9rem .2rem;border:0;outline:0;background:transparent;color:#35291e;font:inherit;min-width:0}
+.suggestionHead{display:flex;justify-content:space-between;align-items:center;color:#8b591b;font-size:.83rem;padding:.5rem .2rem}.suggestionHead span{color:#9b876d;font-size:.72rem}.suggestionList{display:grid;gap:.45rem}.suggestionItem{width:100%;display:flex;align-items:center;gap:.7rem;border:1px solid #efdfc3;border-radius:12px;background:#fffdf8;padding:.7rem;text-align:left;color:#30251b}.suggestionItem:hover{border-color:#c78b2b;background:#fff7e7}.suggestionGlyph{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#fff0d2;font-size:1.1rem;flex:none}.suggestionText{display:grid;gap:.17rem;min-width:0;flex:1}.suggestionText b{color:#704614;font-size:.9rem}.suggestionText small{font-size:.75rem;color:#756653;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.suggestionText em{font-size:.68rem;color:#9b7a44;font-style:normal}.suggestionArrow{font-size:1.5rem;color:#bd862f}.emptySuggestions{padding:1rem;border:1px dashed #e2cfac;border-radius:12px;color:#756653;font-size:.85rem}.searchHit{outline:2px solid #d9a441;box-shadow:0 0 0 5px #d9a44122}
+.settingsWrap{max-width:900px;margin:1rem auto}.settingRow{display:flex;align-items:center;gap:.85rem;padding:1rem .1rem;border-bottom:1px solid #f0e5d4}.actBtn[hidden]{display:none!important}.settingRow:last-child{border-bottom:0}.settingIcon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#fff0d2;color:#93621d;font-size:1.2rem;flex:none}.settingText{flex:1;min-width:0;display:grid;gap:.2rem}.settingText b{color:#65451b;font-size:.9rem}.settingText small{font-size:.76rem;color:#756653;line-height:1.55}.dangerBtn{color:#a43524;border-color:#e8c2b9;background:#fff7f4}.dangerRow .settingIcon{background:#fff0eb;color:#ae3425}
+.bottomNav{display:none}
+#printReport{display:none}
+@media(max-width:760px){
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+ header{position:sticky;top:0}.hwrap{padding:.6rem .75rem;gap:.65rem;align-items:flex-start}.appIcon{width:50px;height:50px;border-radius:13px;margin-top:.15rem}.brand{flex:1;min-width:0}.brand h1{font-size:1.48rem}.brand .slogan{font-size:.72rem;letter-spacing:0}.brand .mantra{font-size:.94rem}.brand small{font-size:.52rem;letter-spacing:.04em;line-height:1.35}.hspace{display:none}.yatraPill{display:none}.installBtn{display:none!important}
+ .band{margin-top:.65rem;padding:0 .7rem}.bandCard{padding:.8rem;border-radius:13px}.ring{width:68px;height:68px}.ring svg{width:68px;height:68px}.ring b{font-size:1.15rem}.bandRow{gap:.7rem}.bandTxt h2{font-size:1.18rem}.bandTxt p{font-size:.7rem}.pctChips{width:100%;margin-left:0}.chip{font-size:.65rem;padding:.22rem .5rem}
+ .controls{display:none}.menuNav{display:none!important}
+ main{padding:.6rem .7rem 1rem}.view{min-height:44vh}.homeGrid{gap:.65rem}.homePanel{padding:.85rem;border-radius:13px}.homePanel h2{font-size:1.3rem;margin-bottom:.55rem}#homeMap{height:260px}.homeStats{gap:.45rem}.statBox{padding:.65rem}.statBox b{font-size:1.2rem}.quickItem{padding:.5rem 0;gap:.45rem;font-size:.76rem}.mapBar{flex-wrap:wrap}.mapBar .mapHint{width:100%}#map{height:62vh;min-height:380px}.exploreHead h2{font-size:1.5rem}.exploreHead p{font-size:.78rem}
+ .deck{min-height:0;height:auto}.tcard{min-height:0;position:relative}.cgrid{grid-template-columns:1fr}.cphoto{height:250px;min-height:250px}.cbody{padding:.85rem}.cbody h3{font-size:1.8rem}.detailFacts{grid-template-columns:74px 1fr;font-size:.8rem}.vrow{gap:.4rem}.actBtn{font-size:.74rem;padding:.55rem .68rem}.ytWrap iframe{height:220px}.stage{margin:0}.stageHead{padding:.5rem 0}.posTag{font-size:.75rem}.regionTag{font-size:.62rem}.navBtn{width:36px;height:36px}
+ .searchPanel,.settingsWrap{margin:.2rem 0}.searchLarge{margin:.8rem 0}.suggestionItem{padding:.6rem}.settingRow{align-items:flex-start;flex-wrap:wrap;padding:.85rem 0}.settingText{min-width:calc(100% - 62px)}.settingRow .actBtn{margin-left:3.1rem}.settingIcon{width:38px;height:38px}.discFrame{aspect-ratio:9/14}.discourseHero{padding:.9rem}
+ .bottomNav{position:fixed;z-index:1000;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.15rem;padding:.45rem .35rem calc(.45rem + env(safe-area-inset-bottom));background:rgba(255,253,248,.97);border-top:1px solid #e6d3b3;box-shadow:0 -6px 18px rgba(80,54,24,.09);backdrop-filter:blur(14px)}.bottomTab{border:0;background:transparent;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;padding:.15rem .05rem;color:#806748;font-size:.61rem;font-weight:700;min-width:0}.bottomIcon{font-size:1.1rem;line-height:1.1}.bottomTab.on{background:#fff0d2;color:#8b591b}.bottomTab.on .bottomIcon{color:#a86b16}
+ footer{padding:1rem .8rem;font-size:.73rem;margin-bottom:.3rem}
+}
+@media print{
+ body{background:#fff!important;color:#111!important;padding:0!important}body>*:not(#printReport){display:none!important}#printReport.printing{display:block!important;padding:1rem!important;color:#111!important}#printReport h1{font-size:22pt;margin-bottom:8pt}#printReport .printMantra{margin-bottom:8pt;font-weight:bold}#printReport table{width:100%;border-collapse:collapse;font-size:8pt}#printReport th,#printReport td{border:1px solid #bbb;padding:4pt;text-align:left;vertical-align:top}#printReport th{background:#f4ead8}
+}
+
 </style>
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231b0a06'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23d9a441' font-family='serif'%3E%E0%AE%93%E0%AE%AE%E0%AF%8D%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="./icon-192.png">
 </head>
 <body>
 <div id="embers"></div>
 
 <header>
   <div class="hwrap">
-    <svg class="kolam" viewBox="0 0 40 40" fill="none" stroke="#d9a441" stroke-width="1.4">
-      <circle cx="20" cy="20" r="16"/><circle cx="20" cy="20" r="9"/>
-      <path d="M20 4v32M4 20h32M8.7 8.7l22.6 22.6M31.3 8.7L8.7 31.3"/>
-      <circle cx="20" cy="20" r="3" fill="#d9a441"/>
-    </svg>
+    <img class="appIcon" src="./icon-192.png" alt="Bhagawan Vishnu Dashavatara icon" width="68" height="68">
     <div class="brand">
-      <h1>Divya Kshetra Yatra</h1>
-      <small>108 Divya Desams · Divya Prabandham</small>
+      <h1>Divya Desams</h1>
+      <p class="slogan">Hari Sarvottama Vayu Jivottama</p>
+      <p class="mantra">ॐ नमो भगवते वासुदेवाय</p>
+      <p class="mantra">ॐ नमो नारायणाय</p>
+      <small>108 Sacred Abodes of Lord Vishnu · Divya Prabandham</small>
     </div>
     <div class="hspace"></div>
     <div class="yatraPill">🌿 <span id="todayYatra"></span></div>
@@ -303,7 +331,7 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
       </div>
       <div class="bandTxt">
         <h2 id="progTitle">Your yatra awaits</h2>
-        <p id="progSub">Tick temples as you visit them — every mark, note and photo is saved on this device automatically.</p>
+        <p id="progSub">Tick temples as you visit them — your progress is saved on this device. Sign in with Google in Settings to sync across devices.</p>
       </div>
       <div class="pctChips" id="pctChips"></div>
     </div>
@@ -312,8 +340,7 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 </section>
 
 <nav class="controls">
-  <div class="search"><input id="q" type="search" placeholder="Search temple, deity, city, Alvar…" autocomplete="off"></div>
-  <select class="sel" id="regionSel">
+  <select class="sel" id="regionSel" aria-hidden="true" tabindex="-1" style="display:none">
     <option value="">All regions</option>
   </select>
   <select class="sel" id="sortSel">
@@ -340,7 +367,6 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
       <div class="homePanel"><h2>🗺️ Your Divya Desam Yatra Map</h2><div id="homeMap"></div><p style="font-size:.75rem;color:#756653;margin-top:.6rem">Pins use the modern map of India; locations are approximate. Green markers indicate visited places.</p></div>
       <div class="homePanel"><h2>🌼 Yatra Progress</h2><div class="homeStats" id="homeStats"></div><h2 style="margin-top:1rem">Recent places</h2><div class="quickList" id="recentList"></div><button class="actBtn" style="margin-top:.8rem" onclick="setView('cards')">Open place cards →</button></div>
     </div>
-    <div class="homePanel" style="margin-top:1rem"><h2>Explore by present-day geography</h2><p style="font-size:.82rem;color:#756653;margin-bottom:.8rem">Traditional Divya Desam regions are retained on each card. Use these broader groups to browse places by present-day state or area.</p><div class="regionGrid" id="geoRegions"></div></div>
   </section>
   <!-- CARDS VIEW -->
   <section class="view active" id="view-cards">
@@ -364,8 +390,9 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
     <div class="gGrid" id="gGrid"></div>
   </section>
 
-  <!-- MAP VIEW -->
+  <!-- EXPLORE VIEW (map-based; no region-wise breakout) -->
   <section class="view" id="view-map">
+    <div class="exploreHead"><h2>Explore Divya Desams</h2><p>Explore temple locations on the map, open a place card, or get directions.</p></div>
     <div class="mapBar">
       <span class="mapHint">Tap any marker to open its temple card. Green = visited.</span>
       <button class="actBtn" id="fitAll">Show all 108</button>
@@ -374,11 +401,36 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
     <div id="map"></div>
   </section>
 
-  <!-- DISCOURSES VIEW -->
-  <section class="view" id="view-discourses">
-    <div class="discourseHero"><div><h2>Velukkudi Discourses · 108 Divya Desams</h2><p style="color:#756653;font-size:.86rem;margin-top:.35rem">Official Velukkudi TV playlist. Select a temple video from the playlist or open the complete series.</p></div><a class="actBtn" href="https://velukkudi.tv/stream/playlist/108-divya-desam/" target="_blank" rel="noopener">Open official playlist ↗</a></div>
-    <iframe class="discFrame" loading="lazy" title="Velukkudi TV 108 Divya Desams playlist" src="https://velukkudi.tv/stream/playlist/108-divya-desam/" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <p style="font-size:.78rem;color:#756653;margin-top:.6rem">If the publisher blocks embedded playback in your browser, use “Open official playlist”. Some discourses may require a Velukkudi TV membership.</p>
+  <!-- YOUTUBE PLAYLIST VIEW -->
+  <section class="view" id="view-youtube">
+    <div class="discourseHero"><div><h2>108 Divya Desams · YouTube Playlist</h2><p style="color:#756653;font-size:.86rem;margin-top:.35rem">Watch the playlist here, or open it directly on YouTube.</p></div><a class="actBtn" href="https://www.youtube.com/playlist?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8" target="_blank" rel="noopener">Open YouTube playlist ↗</a></div>
+    <iframe class="discFrame" loading="lazy" title="108 Divya Desams YouTube playlist" src="https://www.youtube.com/embed/videoseries?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+    <p style="font-size:.78rem;color:#756653;margin-top:.6rem">If embedded playback is unavailable, use “Open YouTube playlist”.</p>
+  </section>
+  <!-- SEARCH VIEW -->
+  <section class="view" id="view-search">
+    <div class="homePanel searchPanel">
+      <h2>Search Divya Desams</h2>
+      <p class="helperText">Search by temple name, place, location, Perumal, traditional region, or Alvar name.</p>
+      <div class="search searchLarge"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="Try Srirangam, Nammalvar, Perumal, Tamil Nadu…" autocomplete="off" aria-label="Search all Divya Desams"></div>
+      <div class="suggestionHead"><b id="suggestionTitle">Suggestions</b><span>108 sacred places</span></div>
+      <div class="suggestionList" id="suggestions" aria-live="polite"></div>
+    </div>
+  </section>
+  <!-- SETTINGS VIEW -->
+  <section class="view" id="view-settings">
+    <div class="settingsWrap">
+      <div class="homePanel"><h2>Settings</h2><p class="helperText">Manage offline access, backup, installation, and saved yatra data.</p>
+        <div class="settingRow"><div class="settingIcon">⬇</div><div class="settingText"><b>Save offline</b><small>Cache the app shell for use without a connection. Map tiles and YouTube still need internet.</small></div><button class="actBtn" id="offlineBtn">Check offline readiness</button></div>
+        <div class="settingRow"><div class="settingIcon">🔐</div><div class="settingText"><b>Google account</b><small id="authStatus">Not signed in. Connect your Google account to sync your yatra across devices.</small></div><button class="actBtn" id="googleSignInBtn">Sign in with Google</button><button class="actBtn" id="googleSignOutBtn" hidden>Sign out</button></div>
+        <div class="settingRow"><div class="settingIcon">☁</div><div class="settingText"><b>Cloud sync</b><small id="syncStatus">Offline-first: your data stays on this device until cloud setup is completed.</small></div><button class="actBtn" id="syncBtn">Sync now</button></div>
+        <p class="helperText" id="cloudSetupHint">First-time setup: configure your Supabase URL and publishable/anon key in <code>supabase-config.js</code>, enable Google sign-in, and run <code>supabase_setup.sql</code>. See <code>README_SETUP.txt</code>.</p>
+        <div class="settingRow"><div class="settingIcon">📄</div><div class="settingText"><b>Export as PDF</b><small>Create a printable yatra summary with visit status and notes. Choose “Save as PDF” in the print dialog.</small></div><button class="actBtn" id="exportPdfBtn">Export PDF</button></div>
+        <div class="settingRow"><div class="settingIcon">🗂</div><div class="settingText"><b>Export backup</b><small>Download visits, notes, and photos as a JSON backup file.</small></div><button class="actBtn" id="exportDataBtn">Export backup</button></div>
+        <div class="settingRow"><div class="settingIcon">📱</div><div class="settingText"><b>Install app</b><small>Add Divya Desams to your home screen when your browser supports installation.</small></div><button class="actBtn" id="settingsInstallBtn">Install app</button></div>
+        <div class="settingRow dangerRow"><div class="settingIcon">🗑</div><div class="settingText"><b>Delete memory</b><small>Remove all saved visits, notes, uploaded photos, and preferences from this browser.</small></div><button class="actBtn dangerBtn" id="deleteMemoryBtn">Delete memory</button></div>
+      </div>
+    </div>
   </section>
   <!-- ALVARS VIEW -->
   <section class="view" id="view-alvars">
@@ -388,13 +440,16 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 
 <div class="lb" id="lightbox"><button id="lbClose">✕</button><img id="lbImg" alt=""><p class="lbCap" id="lbCap"></p></div>
 <div id="toast"></div>
+<div id="printReport" aria-hidden="true"></div>
 
 <footer>
-  <p class="fl">ॐ नमो नारायणाय · ஓம் நமோ நாராயணாய</p>
-  <p>The 108 Divya Desams are the Vishnu temples glorified in the Nalayira Divya Prabandham of the twelve Alvars. Data compiled from traditional Divya Desam lists — histories are brief summaries; map pins are approximate town-level locations, tap “Directions” for live navigation. Your visits, notes and photos stay on this device (browser storage) — use Export/Import on each card to back up.</p>
+  <p class="fl">Hari Sarvottama Vayu Jivottama · ॐ नमो भगवते वासुदेवाय · ॐ नमो नारायणाय</p>
+  <p>The 108 Divya Desams are the Vishnu temples glorified in the Nalayira Divya Prabandham of the twelve Alvars. Data compiled from traditional Divya Desam lists — histories are brief summaries; map pins are approximate town-level locations, tap “Directions” for live navigation. Your visits, notes and photos stay on this device for offline use. Sign in with Google in Settings to sync progress and uploaded photos securely when online.</p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
 <script>
 /* ================= DATA — 108 DIVYA DESAMS =================
    n: divya desam name | d: deity | l: place | r: region | a: Alvar(s)
@@ -535,10 +590,34 @@ const store={
 let visits=store.get(K.v,{}), notes=store.get(K.n,{}), photos=store.get(K.p,{});
 let state=store.get(K.s,{view:'home',idx:0,q:'',region:'',sort:'no',vis:'all'});
 if(!state.view)state.view='home';
-const saveAll=()=>{store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);};
+let cloudClient=null, cloudUser=null, cloudSyncTimer=null, cloudSyncInProgress=false, cloudSyncAgain=false, cloudRestoreMode=false, lastCloudSyncUser='';
+const CLOUD_PHOTO_BUCKET='divya-yatra-photos', CLOUD_BACKUP_BUCKET='divya-yatra-backups';
+const cloudConfig=window.DIVYA_SUPABASE_CONFIG||{};
+const cloudConfigured=()=>!!(window.supabase&&window.supabase.createClient&&cloudConfig.url&&cloudConfig.anonKey&&!/PASTE|YOUR_|REPLACE_ME/i.test(cloudConfig.url+cloudConfig.anonKey));
+const saveAll=()=>{store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);try{localStorage.setItem('dy_data_updated_at',String(Date.now()));}catch(_){}if(cloudUser&&!cloudRestoreMode)scheduleCloudSync();};
 const slug=i=>T[i].n.toLowerCase().replace(/[^a-z0-9]+/g,'-');
-const imgURL=i=>`https://upload.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(slug(i))}.jpg?width=900`;
+const IMG_CACHE_KEY='dy_commons_image_cache';
+let commonsImages=store.get(IMG_CACHE_KEY,{}),pendingCommons=new Set();
+const imagePlaceholder=i=>`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650"><defs><linearGradient id="g" x2="0" y2="1"><stop stop-color="#fff7e6"/><stop offset="1" stop-color="#ead1a0"/></linearGradient></defs><rect width="900" height="650" fill="url(#g)"/><path d="M170 510V300l70-50 70 50v210M290 510V220l90-90 90 90v290M490 510V260l75-55 75 55v250M630 510V330l55-35 55 35v180" fill="#d8ad58" stroke="#97651f" stroke-width="10"/><path d="M80 520H820" stroke="#97651f" stroke-width="12"/><text x="450" y="590" font-family="serif" font-size="32" text-anchor="middle" fill="#744916">${T[i].n}</text></svg>`)}`;
+const imgURL=i=>commonsImages[T[i].n]||imagePlaceholder(i);
 const photoOf=i=>(photos[T[i].n]&&photos[T[i].n].src)||imgURL(i);
+async function loadRelevantPhoto(i,img){
+ const t=T[i];if(!t||photos[t.n]?.src)return;
+ const showFallback=()=>{if(!img||!img.isConnected)return;img.dataset.imageFallback='done';if(img.id==='mainImg'){img.parentElement.classList.add('noph');}else{img.outerHTML='<div class="gTop"><span>ॐ</span></div>';}};
+ if(commonsImages[t.n]){
+   if(img&&img.isConnected){if(img.dataset.commonsAttempted==='1'){showFallback();return;}img.dataset.commonsAttempted='1';img.src=commonsImages[t.n];}
+   return;
+ }
+ if(pendingCommons.has(t.n))return;pendingCommons.add(t.n);
+ try{
+   const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(t.n+' temple')+'&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*';
+   const response=await fetch(api);if(!response.ok)throw new Error('image search failed');
+   const data=await response.json();const pages=Object.values(data.query?.pages||{});const info=pages[0]?.imageinfo?.[0];const url=info?.thumburl||info?.url;
+   if(!url)throw new Error('no image result');commonsImages[t.n]=url;store.set(IMG_CACHE_KEY,commonsImages);
+   if(img&&img.isConnected&&!photos[t.n]?.src){img.dataset.commonsAttempted='1';img.src=url;}
+ }catch(_){showFallback();}
+ finally{pendingCommons.delete(t.n);}
+}
 
 /* ================= HELPERS ================= */
 const $=s=>document.querySelector(s);
@@ -620,14 +699,14 @@ function renderCard(listPos){
           <span>${esc(t.r)}</span><span class="alvar">🎶 ${esc(t.a)}</span><span>#${i+1} of 108</span>
         </div>
         <div class="sectionLabel">Location</div>
-        <div class="detailFacts"><b>Place</b><span>${esc(t.l)}</span><b>Region</b><span>${esc(t.r)} · ${esc(geoGroup(t))}</span><b>Perumal</b><span>${esc(t.d)}</span><b>Thayar</b><span>${esc(t.thayar||'Please verify with the temple / trusted sthala source')}</span></div>
+        <div class="detailFacts"><b>Place</b><span>${esc(t.l)}</span><b>Region</b><span>${esc(t.r)}</span><b>Perumal</b><span>${esc(t.d)}</span><b>Thayar</b><span>${esc(t.thayar||'Please verify with the temple / trusted sthala source')}</span></div>
         <div class="sectionLabel">History</div><p class="hist">${esc(t.h)}</p>
         <div class="vrow">
           <label class="vlabel"><input type="checkbox" id="chk" ${visits[t.n]?'checked':''}><span class="vbox">✓</span><span class="vtxt">${visits[t.n]?'Visited':'Mark as visited'}</span></label>
           <button class="actBtn" id="bPhoto">📷 Add photo</button>
           <button class="actBtn" id="bDir">📍 Google Maps directions</button>
           <button class="actBtn" id="bWiki">📖 More</button>
-          <button class="actBtn" id="bVel">▶ Velukkudi discourse</button>
+          <button class="actBtn" id="bVel">▶ YouTube playlist</button>
           <button class="actBtn red" id="bDel" style="display:none">🗑 Photo</button>
         </div>
         <div class="noteBox">
@@ -647,10 +726,14 @@ function renderCard(listPos){
 function wireCard(i){
   const t=T[i],card=$('#card'),chk=$('#chk'),note=$('#note');
   const mainImg=$('#mainImg');
-  mainImg.onerror=()=>mainImg.parentElement.classList.add('noph');
+  mainImg.onerror=()=>loadRelevantPhoto(i,mainImg);
+  if(!photos[t.n]?.src)loadRelevantPhoto(i,mainImg);
   const refreshThumbs=()=>{
-    const p=photos[t.n];$('#bDel').style.display=(p&&p.src)?'inline-block':'none';
-    $('#phCount').textContent=p&&p.src?'📷 your photo':'📷 +';
+    const p=photos[t.n],gallery=Array.isArray(p?.gallery)?p.gallery:[];
+    $('#bDel').style.display=(p&&(p.src||gallery.length))?'inline-block':'none';
+    $('#phCount').textContent=(p&&(p.src||gallery.length))?'📷 '+gallery.length+' photo'+(gallery.length===1?'':'s'):'📷 +';
+    const thumbs=$('#thumbs');
+    if(thumbs){thumbs.innerHTML=gallery.slice(-6).map((src,j)=>`<img src="${src}" alt="Your photo ${j+1}" title="Open photo" data-photo-idx="${j}" />`).join('');thumbs.querySelectorAll('img').forEach(im=>im.onclick=ev=>{ev.stopPropagation();openLB(im.src,t.n+' · Your photo');});}
   };refreshThumbs();
   chk.onchange=()=>{
     if(chk.checked){visits[t.n]=Date.now();toast('🙏 '+t.n+' marked visited!');}
@@ -671,15 +754,23 @@ function wireCard(i){
         const c=document.createElement('canvas');const s=Math.min(1,900/im.width);
         c.width=im.width*s;c.height=im.height*s;
         c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-        try{photos[t.n]={src:c.toDataURL('image/jpeg',.72),name:t.n,ts:Date.now()};saveAll();refreshThumbs();mainImg.src=photos[t.n].src;mainImg.parentElement.classList.remove('noph');toast('📷 Photo saved to '+t.n);}
-        catch(err){toast('Photo too large — try a smaller image');}
+        try{
+          const data=c.toDataURL('image/jpeg',.72),old=photos[t.n]||{};
+          const useAsCover=confirm('Do you want to change the cover photo for '+t.n+'? Choose Cancel to keep the current cover and save this as an additional photo.');
+          const gallery=Array.isArray(old.gallery)?old.gallery.slice():[];gallery.push(data);
+          photos[t.n]={...old,src:useAsCover?data:old.src,gallery,name:t.n,ts:Date.now()};
+          saveAll();refreshThumbs();
+          if(useAsCover){mainImg.src=photos[t.n].src;mainImg.parentElement.classList.remove('noph');}
+          toast(useAsCover?'Cover photo changed for '+t.n:'Additional photo saved for '+t.n);
+        }
+        catch(err){toast('Photo could not be saved — try a smaller image');}
       };im.src=rd.result;};
       rd.readAsDataURL(f);
     };inp.click();
   };
-  $('#bDel').onclick=()=>{delete photos[t.n];saveAll();refreshThumbs();mainImg.src=imgURL(i);toast('Photo removed');};
+  $('#bDel').onclick=()=>{if(!confirm('Remove all uploaded photos for '+t.n+'?'))return;delete photos[t.n];saveAll();refreshThumbs();mainImg.src=imgURL(i);mainImg.parentElement.classList.remove('noph');toast('Uploaded photos removed');};
   $('#bDir').onclick=()=>{if(!t.c){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(`https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}&destination_place_id=&travelmode=driving`,'_blank','noopener');};
-  $('#bVel').onclick=()=>window.open('https://velukkudi.tv/stream/playlist/108-divya-desam/','_blank','noopener');
+  $('#bVel').onclick=()=>window.open('https://www.youtube.com/playlist?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8','_blank','noopener');
   $('#bWiki').onclick=()=>window.open(WIKI(t.n),'_blank');
   mainImg.onclick=()=>openLB(mainImg.src,t.n+' · '+t.l);
   /* swipe */
@@ -712,17 +803,18 @@ function renderGallery(){
   g.innerHTML=T.map((t,i)=>`
     <div class="gItem ${visits[t.n]?'visited':''}" data-gi="${i}">
       <span class="gBadge">VISITED</span><span class="gNo">#${i+1}</span>
-      <img class="gTop" src="${esc(photoOf(i))}" loading="lazy" onerror="this.outerHTML='<div class=gTop><span>ॐ</span></div>'">
+      <img class="gTop" data-photo-index="${i}" src="${esc(photoOf(i))}" loading="lazy" onerror="loadRelevantPhoto(${i},this)">
       <div class="gTxt"><b>${esc(t.n)}</b><small>${esc(t.l)}</small></div>
     </div>`).join('');
   $('#gCount').textContent=`All ${T.length} Divya Desams — tap any tile to open its place card.`;
   g.querySelectorAll('.gItem').forEach(el=>el.onclick=()=>goToGlobal(+el.dataset.gi));
+  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){const im=entry.target;observer.unobserve(im);if(im.dataset.photoIndex!==undefined)loadRelevantPhoto(Number(im.dataset.photoIndex),im);}}),{rootMargin:'160px'});g.querySelectorAll('img[data-photo-index]').forEach(im=>observer.observe(im));}
 }
 
 /* ================= ALVARS ================= */
 function renderAlvars(){
-  $('#almGrid').innerHTML=ALVARS.map(a=>`
-    <div class="almCard"><h4>${a[0]}</h4><div class="almE">${a[1]}</div><p>${a[2]}</p></div>`).join('');
+  $('#almGrid').innerHTML=ALVARS.map((a,i)=>`
+    <div class="almCard" id="alvar-${i}"><h4>${a[0]}</h4><div class="almE">${a[1]}</div><p>${a[2]}</p></div>`).join('');
 }
 
 /* ================= MAP ================= */
@@ -749,16 +841,7 @@ function refreshMapIcons(){if(!map)return;T.forEach((t,i)=>{if(markers[i])marker
 function fitList(arr){if(!map)return;const pts=arr.map(i=>T[i].c).filter(Boolean);if(!pts.length)return;
   map.fitBounds(L.latLngBounds(pts).pad(0.2),{maxZoom:11});}
 
-/* ================= HOME DASHBOARD & GEOGRAPHY ================= */
-function geoGroup(t){
- const s=(t.l+' '+t.r).toLowerCase();
- if(t.r==='Celestial')return 'Celestial abodes';
- if(/karnataka|melkote|mangalore|udupi/.test(s))return 'Karnataka';
- if(/tamil nadu|chennai|kanchipuram|tiruchirappalli|madurai|srirangam|tamilnadu/.test(s))return 'Tamil Nadu';
- if(/kerala|malai nadu|thiruvalla|tirunavaya|thrissur|kochi|alappuzha|chengannur/.test(s))return 'Kerala';
- if(/ayodhya|badrinath|devaprayag|mathura|vrindavan|dwarka|gujarat|uttar pradesh|uttarakhand|maharashtra|andhra|odisha|puri|nepal/.test(s)||t.r==='Vada Nadu')return 'Other regions of India';
- return t.r==='Malai Nadu'?'Kerala':t.r==='Vada Nadu'?'Other regions of India':'Tamil Nadu';
-}
+/* ================= HOME DASHBOARD ================= */
 let homeMap=null,homeMarkers=[];
 function initHomeMap(){
  if(homeMap||!window.L)return;
@@ -772,26 +855,33 @@ function renderHome(){
  const stats=[[''+visited,'Places visited'],[''+unvisited,'Still to visit'],[Math.round(visited/108*100)+'%','Yatra completed'],[''+Object.keys(notes).filter(k=>(notes[k]||'').trim()).length,'Places with notes']];
  const st=document.getElementById('homeStats');if(st)st.innerHTML=stats.map(([n,l])=>`<div class="statBox"><b>${n}</b><span>${l}</span></div>`).join('');
  const recent=document.getElementById('recentList');if(recent){const done=T.filter(t=>visits[t.n]).sort((a,b)=>(visits[b.n]||0)-(visits[a.n]||0)).slice(0,5);recent.innerHTML=(done.length?done:T.filter(t=>t.r!=='Celestial').slice(0,5)).map(t=>`<div class="quickItem"><span>🛕</span><span>${esc(t.n)}<br><small style="color:#756653">${esc(t.l)}</small></span><span class="status ${visits[t.n]?'':'todo'}">${visits[t.n]?'Visited':'To visit'}</span></div>`).join('');}
- const groups=['Tamil Nadu','Karnataka','Kerala','Other regions of India','Celestial abodes'];const rg=document.getElementById('geoRegions');if(rg)rg.innerHTML=groups.map(g=>{const a=T.filter(t=>geoGroup(t)===g),done=a.filter(t=>visits[t.n]).length;return `<button class="regionCard" data-geogroup="${g}"><b>${g}</b><small>${done} / ${a.length} visited · ${a.length-done} to visit</small></button>`}).join('');
- rg?.querySelectorAll('[data-geogroup]').forEach(b=>b.onclick=()=>{state.region='';state.q='';state.vis='all';state.idx=0;$('#q').value='';$('#regionSel').value='';document.querySelectorAll('.tchip[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==='all'));applyFilter();LIST=LIST.filter(i=>geoGroup(T[i])===b.dataset.geogroup);renderCard(0);setView('cards');});
 }
 
 /* ================= VIEWS ================= */
 const tabEls=[];
 function setView(v){
+  if(v==='explore')v='map';
+  if(v==='discourses')v='youtube';
   state.view=v;saveAll();
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
   document.querySelectorAll('.vtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
-  if(v==='map'){setTimeout(()=>{initMap();map.invalidateSize();fitList(LIST);},60);}
+  document.querySelectorAll('.bottomTab').forEach(b=>b.classList.toggle('on',b.dataset.bottomView===v||(v==='map'&&b.dataset.bottomView==='map')));
+  if(v==='map'){setTimeout(()=>{if(!window.L){toast('The map needs an internet connection to load.');return;}initMap();if(map)map.invalidateSize();fitList(LIST);},60);}
   if(v==='home'){setTimeout(()=>{initHomeMap();if(homeMap)homeMap.invalidateSize();renderHome();},60);}
   if(v==='gallery')renderGallery();
+  if(v==='search')renderSuggestions();
 }
 function buildTabs(){
   const nav=document.createElement('nav');nav.className='menuNav';
-  [['home','⌂ Home'],['cards','🛕 Place Cards'],['gallery','☷ All 108'],['map','🗺 Map'],['discourses','▶ Velukkudi Discourses'],['alvars','🌸 Alvars']].forEach(([v,lb])=>{
+  [['home','⌂ Home'],['cards','🛕 Place Cards'],['gallery','☷ All 108'],['map','🗺 Explore'],['youtube','▶ YouTube Playlist'],['alvars','🌸 Alvars'],['search','⌕ Search'],['settings','⚙ Settings']].forEach(([v,lb])=>{
     const b=document.createElement('button');b.className='tchip vtab';b.dataset.v=v;b.textContent=lb;b.onclick=()=>setView(v);nav.appendChild(b);
   });
   $('.controls').after(nav);
+  const bottom=document.createElement('nav');bottom.className='bottomNav';bottom.setAttribute('aria-label','Main navigation');
+  [['home','⌂','Home'],['cards','▤','Place Cards'],['map','⌖','Explore'],['search','⌕','Search'],['settings','⚙','Settings']].forEach(([v,icon,label])=>{
+    const b=document.createElement('button');b.className='bottomTab';b.dataset.bottomView=v;b.innerHTML=`<span class="bottomIcon">${icon}</span><span>${label}</span>`;b.onclick=()=>setView(v);bottom.appendChild(b);
+  });
+  document.body.appendChild(bottom);
 }
 
 /* ================= LIGHTBOX ================= */
@@ -799,9 +889,33 @@ function openLB(src,cap){$('#lbImg').src=src;$('#lbCap').textContent=cap;$('#lig
 $('#lbClose').onclick=()=>$('#lightbox').classList.remove('on');
 $('#lightbox').onclick=e=>{if(e.target.id==='lightbox')$('#lightbox').classList.remove('on');};
 
+/* ================= SEARCH SUGGESTIONS ================= */
+function renderSuggestions(){
+ const box=$('#suggestions');if(!box)return;
+ const q=(($('#q')&&$('#q').value)||'').trim().toLowerCase();
+ const temples=T.map((t,i)=>({t,i,hay:(t.n+' '+t.d+' '+t.l+' '+t.r+' '+t.a+' '+(t.thayar||'')).toLowerCase()})).filter(x=>!q||x.hay.includes(q)).slice(0,10);
+ const alvarHits=q?ALVARS.map((a,i)=>({a,i})).filter(x=>x.a[0].toLowerCase().includes(q)).slice(0,4):[];
+ const head=$('#suggestionTitle');if(head)head.textContent=q?'Matching places and names':'Suggested places';
+ const placeRows=temples.map(({t,i})=>{
+   const matchedType=q&&t.a.toLowerCase().includes(q)?'Alvar':q&&t.l.toLowerCase().includes(q)?'Location':q&&t.d.toLowerCase().includes(q)?'Perumal':q&&t.r.toLowerCase().includes(q)?'Region':'Divya Desam';
+   return `<button class="suggestionItem" type="button" data-search-index="${i}"><span class="suggestionGlyph">🛕</span><span class="suggestionText"><b>${esc(t.n)}</b><small>${esc(t.l)} · ${esc(t.d)}</small><em>${esc(matchedType)}${t.a&&t.a!=='Azhwars'?' · '+esc(t.a):''}</em></span><span class="suggestionArrow">›</span></button>`;
+ });
+ const alvarRows=alvarHits.map(({a,i})=>`<button class="suggestionItem" type="button" data-alvar-index="${i}"><span class="suggestionGlyph">🌸</span><span class="suggestionText"><b>${esc(a[0])}</b><small>${esc(a[1])}</small><em>Alvar / Vaishnava saint</em></span><span class="suggestionArrow">›</span></button>`);
+ const rows=[...alvarRows,...placeRows];
+ box.innerHTML=rows.length?rows.join(''):'<p class="emptySuggestions">No matches. Try a temple, location, Perumal, or Alvar name.</p>';
+ box.querySelectorAll('[data-search-index]').forEach(b=>b.onclick=()=>openSearchResult(Number(b.dataset.searchIndex)));
+ box.querySelectorAll('[data-alvar-index]').forEach(b=>b.onclick=()=>openAlvarResult(Number(b.dataset.alvarIndex)));
+}
+function openAlvarResult(i){setView('alvars');requestAnimationFrame(()=>{const el=$('#alvar-'+i);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('searchHit');setTimeout(()=>el.classList.remove('searchHit'),1800);}});}
+function openSearchResult(i){
+ state.q='';state.region='';state.vis='all';state.sort='no';state.idx=0;
+ if($('#q'))$('#q').value='';document.querySelectorAll('.tchip[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==='all'));
+ applyFilter();const p=LIST.indexOf(i);state.idx=p>=0?p:0;saveAll();setView('cards');renderCard(state.idx);window.scrollTo({top:0,behavior:'smooth'});
+}
+
 /* ================= CONTROLS WIRING ================= */
 $('#regionSel').innerHTML='<option value="">All regions</option>'+[...new Set(T.map(t=>t.r))].map(r=>`<option>${r}</option>`).join('');
-$('#q').value=state.q;$('#regionSel').value=state.region;$('#sortSel').value=state.sort;
+$('#q').value=state.q;$('#regionSel').value='';state.region='';$('#sortSel').value=state.sort;
 document.querySelectorAll('.tchip[data-v]').forEach(c=>{
   if(c.dataset.v===state.vis)c.classList.add('on');
   c.onclick=()=>{
@@ -812,8 +926,8 @@ document.querySelectorAll('.tchip[data-v]').forEach(c=>{
     if(state.view==='gallery')renderGallery();
   };
 });
-$('#q').addEventListener('input',e=>{state.q=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);});
-$('#regionSel').onchange=e=>{state.region=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);if(state.view==='gallery')renderGallery();};
+$('#q').addEventListener('input',e=>{state.q=e.target.value;state.idx=0;state.region='';saveAll();applyFilter();renderCard(state.idx);renderSuggestions();});
+$('#regionSel').onchange=()=>{};
 $('#sortSel').onchange=e=>{state.sort=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);};
 $('#btnPrev').onclick=()=>slide(-1);
 $('#btnNext').onclick=()=>slide(1);
@@ -825,6 +939,167 @@ document.addEventListener('keydown',e=>{
 $('#fitAll').onclick=()=>{if(map){map.setView([14.5,79],5);fitList(T.map((_,i)=>i).filter(i=>T[i].r!=='Celestial'));}};
 $('#fitSel').onclick=()=>fitList(LIST);
 $('#goldBtn').onclick=()=>{const v=Object.keys(visits).length;toast(milestones());};
+
+/* ================= SETTINGS / EXPORT ================= */
+function downloadBlob(blob,filename){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+$('#offlineBtn').onclick=async()=>{
+ if(location.protocol==='file:'){toast('To enable offline installation, host this folder on HTTPS or localhost first.');return;}
+ try{if('serviceWorker' in navigator){await navigator.serviceWorker.ready;toast('Offline app shell is ready. Maps and YouTube still need internet.');}
+ else toast('Offline app caching is not supported by this browser.');}
+ catch(_){toast('Offline mode becomes available after the app is hosted on HTTPS or localhost.');}
+};
+$('#googleSignInBtn').onclick=async()=>{
+ if(location.protocol==='file:'){toast('Open the app through HTTPS hosting or localhost before Google sign-in.');return;}
+ if(!cloudConfigured()){toast('Complete the Supabase setup first. See README_SETUP.txt and supabase-config.js.');return;}
+ try{const {error}=await cloudClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});if(error)throw error;}
+ catch(e){console.error(e);toast('Google sign-in could not start: '+(e.message||'check the Supabase Google provider setup'));}
+};
+$('#googleSignOutBtn').onclick=async()=>{if(!cloudClient)return;const {error}=await cloudClient.auth.signOut();if(error){toast('Sign-out failed: '+error.message);return;}cloudUser=null;updateCloudUI();toast('Signed out. Your offline copy stays on this device.');};
+$('#syncBtn').onclick=async()=>{
+ if(!cloudConfigured()){toast('Complete the Supabase setup first. See README_SETUP.txt.');return;}
+ if(!cloudUser){$('#googleSignInBtn').click();return;}
+ try{await syncWithCloud(true);}catch(e){console.error(e);setCloudStatus('Sync failed — '+(e.message||'check your internet connection'));toast('Cloud sync failed. Your local data is still saved.');}
+};
+$('#exportDataBtn').onclick=()=>{
+ const payload={app:'Divya Desams',exportedAt:new Date().toISOString(),visits,notes,photos,state};
+ downloadBlob(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),'divya-desams-backup.json');
+ toast('Backup exported as JSON. Keep it somewhere safe.');
+};
+$('#settingsInstallBtn').onclick=()=>$('#installBtn').click();
+$('#exportPdfBtn').onclick=()=>{
+ const report=$('#printReport');const visited=T.filter(t=>visits[t.n]).length;
+ report.innerHTML=`<h1>Divya Desams — Yatra Report</h1><p class="printMantra">Hari Sarvottama Vayu Jivottama · ॐ नमो भगवते वासुदेवाय · ॐ नमो नारायणाय</p><p>Generated ${new Date().toLocaleString('en-IN')} · ${visited} of ${T.length} places visited (${Math.round(visited/T.length*100)}%)</p><table><thead><tr><th>#</th><th>Divya Desam</th><th>Place</th><th>Perumal</th><th>Status</th><th>Yatra notes</th></tr></thead><tbody>${T.map((t,i)=>`<tr><td>${i+1}</td><td>${esc(t.n)}</td><td>${esc(t.l)}</td><td>${esc(t.d)}</td><td>${visits[t.n]?'Visited':'Not visited'}</td><td>${esc(notes[t.n]||'')}</td></tr>`).join('')}</tbody></table>`;
+ report.classList.add('printing');window.print();setTimeout(()=>report.classList.remove('printing'),1000);
+};
+$('#deleteMemoryBtn').onclick=()=>{
+ if(!confirm('Are you sure? This will permanently delete all saved visits, notes, uploaded photos, and preferences from this browser. This cannot be undone.'))return;
+ try{Object.values(K).forEach(k=>localStorage.removeItem(k));localStorage.removeItem(IMG_CACHE_KEY);}catch(_){}
+ visits={};notes={};photos={};commonsImages={};state={view:'settings',idx:0,q:'',region:'',sort:'no',vis:'all'};
+ applyFilter();refreshProgress();renderCard(0);renderHome();renderSuggestions();
+ if(map){Object.values(markers).forEach(m=>map.removeLayer(m));markers={};T.forEach((t,i)=>{if(!t.c)return;const m=L.marker(t.c,{icon:makeIcon(t)}).addTo(map);markers[i]=m;});}
+ toast('Saved yatra memory deleted from this browser.');
+};
+
+/* ================= GOOGLE SIGN-IN + CLOUD SYNC =================
+   Local storage remains the offline source. A private Supabase Storage backup
+   stores progress metadata; uploaded photos are separate private Storage objects.
+   Only the public publishable/anon key belongs in supabase-config.js. */
+function setCloudStatus(message){const el=$('#syncStatus');if(el)el.textContent=message;}
+function updateCloudUI(){
+ const signIn=$('#googleSignInBtn'),signOut=$('#googleSignOutBtn'),auth=$('#authStatus'),hint=$('#cloudSetupHint');
+ if(!cloudConfigured()){
+   if(auth)auth.textContent='Not connected yet. Configure Supabase and Google OAuth to enable account sync.';
+   if(signIn){signIn.hidden=false;signIn.textContent='Set up Google sign-in';}
+   if(signOut)signOut.hidden=true;
+   setCloudStatus('Your visits, notes and uploaded photos are saved locally and work offline. Cloud sync needs setup.');
+   if(hint)hint.hidden=false;
+   return;
+ }
+ if(hint)hint.hidden=true;
+ if(cloudUser){if(auth)auth.textContent='Signed in as '+(cloudUser.email||cloudUser.user_metadata?.full_name||'Google account')+'.';if(signIn)signIn.hidden=true;if(signOut)signOut.hidden=false;}
+ else{if(auth)auth.textContent='Not signed in. Your device copy remains available offline.';if(signIn){signIn.hidden=false;signIn.textContent='Sign in with Google';}if(signOut)signOut.hidden=true;}
+}
+function scheduleCloudSync(){if(!cloudUser||cloudRestoreMode)return;clearTimeout(cloudSyncTimer);setCloudStatus('Changes saved on this device. Cloud sync is queued…');cloudSyncTimer=setTimeout(()=>syncWithCloud(false).catch(e=>{console.error(e);setCloudStatus('Cloud sync paused — local data is safe. '+(e.message||''));}),1600);}
+function localHasData(){return Object.keys(visits).length>0||Object.values(notes).some(v=>String(v||'').trim())||Object.keys(photos).length>0;}
+function dataUrlToBlob(dataUrl){return fetch(dataUrl).then(r=>{if(!r.ok)throw new Error('Could not read an uploaded photo.');return r.blob();});}
+function blobToDataUrl(blob){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Could not restore a photo from cloud storage.'));reader.readAsDataURL(blob);});}
+function safeCloudFolder(name){return String(name||'temple').normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,72)||'temple';}
+async function uploadCloudPhoto(dataUrl,templeName){
+ if(!dataUrl||typeof dataUrl!=='string'||!dataUrl.startsWith('data:image/'))return null;
+ const blob=await dataUrlToBlob(dataUrl);if(blob.size>8*1024*1024)throw new Error('A photo is larger than the 8 MB cloud limit. Please choose a smaller image.');
+ const buf=await blob.arrayBuffer();const dig=await crypto.subtle.digest('SHA-256',buf);const hash=Array.from(new Uint8Array(dig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+ const ext=(blob.type||'image/jpeg').includes('png')?'png':(blob.type||'image/jpeg').includes('webp')?'webp':'jpg';
+ const path=cloudUser.id+'/photos/'+safeCloudFolder(templeName)+'/'+hash+'.'+ext;
+ const {error}=await cloudClient.storage.from(CLOUD_PHOTO_BUCKET).upload(path,blob,{contentType:blob.type||'image/jpeg',upsert:true,cacheControl:'3600'});
+ if(error)throw error;return path;
+}
+async function snapshotForCloud(){
+ const cloudPhotos={};
+ for(const [temple,p] of Object.entries(photos||{})){
+   const srcPath=p?.src?await uploadCloudPhoto(p.src,temple):null;
+   const galleryPaths=[];
+   for(const image of (Array.isArray(p?.gallery)?p.gallery:[]))galleryPaths.push(await uploadCloudPhoto(image,temple));
+   cloudPhotos[temple]={srcPath,galleryPaths,name:p?.name||temple,ts:p?.ts||0};
+ }
+ return {app:'Divya Desams',version:1,updatedAt:new Date().toISOString(),visits,notes,photos:cloudPhotos,state};
+}
+async function syncWithCloud(manual){
+ if(!cloudUser||!cloudClient)throw new Error('Sign in with Google first.');
+ if(cloudSyncInProgress){cloudSyncAgain=true;return;}
+ cloudSyncInProgress=true;setCloudStatus(manual?'Syncing progress and photos…':'Syncing your changes to the cloud…');
+ try{
+   const snapshot=await snapshotForCloud();
+   const file=new Blob([JSON.stringify(snapshot)],{type:'application/json'});
+   const path=cloudUser.id+'/yatra.json';
+   const {error}=await cloudClient.storage.from(CLOUD_BACKUP_BUCKET).upload(path,file,{contentType:'application/json',upsert:true,cacheControl:'0'});
+   if(error)throw error;
+   const now=Date.now();try{localStorage.setItem('dy_data_updated_at',String(now));localStorage.setItem('dy_cloud_last_sync',String(now));}catch(_){}
+   lastCloudSyncUser=cloudUser.id;setCloudStatus('Synced just now. Progress, notes and uploaded photos are backed up to your account.');
+   if(manual)toast('Yatra progress and photos synced to your account.');
+ }finally{
+   cloudSyncInProgress=false;
+   if(cloudSyncAgain){cloudSyncAgain=false;scheduleCloudSync();}
+ }
+}
+async function downloadCloudPhoto(path,cache){
+ if(!path)return null;if(cache.has(path))return cache.get(path);
+ const promise=(async()=>{const {data,error}=await cloudClient.storage.from(CLOUD_PHOTO_BUCKET).download(path);if(error)throw error;return blobToDataUrl(data);})();cache.set(path,promise);return promise;
+}
+async function restoreCloudSnapshot(snap){
+ cloudRestoreMode=true;
+ try{
+   const cache=new Map(),restoredPhotos={};
+   for(const [temple,p] of Object.entries(snap.photos||{})){
+     const src=await downloadCloudPhoto(p.srcPath,cache);
+     const gallery=[];for(const path of (p.galleryPaths||[])){const data=await downloadCloudPhoto(path,cache);if(data)gallery.push(data);}
+     if(src||gallery.length)restoredPhotos[temple]={src:src||undefined,gallery,name:p.name||temple,ts:p.ts||0};
+   }
+   visits=snap.visits||{};notes=snap.notes||{};photos=restoredPhotos;state={...state,...(snap.state||{})};
+   store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);
+   const time=Date.parse(snap.updatedAt||'')||Date.now();localStorage.setItem('dy_data_updated_at',String(time));localStorage.setItem('dy_cloud_last_sync',String(Date.now()));
+   applyFilter();refreshProgress();renderCard(state.idx||0);renderHome();renderSuggestions();if(typeof renderGallery==='function')renderGallery();
+   if(map){Object.values(markers).forEach(m=>map.removeLayer(m));markers={};T.forEach((t,i)=>{if(!t.c)return;markers[i]=L.marker(t.c,{icon:makeIcon(t)}).addTo(map);});}
+ }finally{cloudRestoreMode=false;}
+}
+async function readCloudSnapshot(){
+ const path=cloudUser.id+'/yatra.json';
+ const {data,error}=await cloudClient.storage.from(CLOUD_BACKUP_BUCKET).download(path);
+ if(error){const msg=String(error.message||'').toLowerCase();if(msg.includes('not found')||msg.includes('object')&&msg.includes('exist')||error.statusCode==='404'||error.status===404)return null;throw error;}
+ try{return JSON.parse(await data.text());}catch(_){throw new Error('The cloud backup could not be read as JSON.');}
+}
+async function syncOnLogin(){
+ if(!cloudUser||!cloudClient||lastCloudSyncUser===cloudUser.id)return;
+ setCloudStatus('Checking for an existing cloud backup…');
+ try{
+   const remote=await readCloudSnapshot();
+   if(!remote){await syncWithCloud(false);lastCloudSyncUser=cloudUser.id;return;}
+   const remoteTime=Date.parse(remote.updatedAt||'')||0;
+   const localTime=Number(localStorage.getItem('dy_data_updated_at')||0);
+   if(!localTime&&localHasData()){
+     const loadRemote=confirm('A cloud Yatra backup already exists for this account.\n\nChoose OK to restore the cloud progress and photos onto this device. Choose Cancel to keep this device\'s data and upload it as the new cloud backup.');
+     if(loadRemote){await restoreCloudSnapshot(remote);setCloudStatus('Cloud progress restored to this device.');toast('Cloud progress restored.');}
+     else await syncWithCloud(false);
+   }else if(remoteTime>localTime){await restoreCloudSnapshot(remote);setCloudStatus('Restored the latest cloud progress and photos.');toast('Latest cloud progress restored.');}
+   else if(localTime>remoteTime||!remoteTime){await syncWithCloud(false);}
+   else{await restoreCloudSnapshot(remote);setCloudStatus('Your progress is synced.');}
+   lastCloudSyncUser=cloudUser.id;
+ }catch(e){console.error(e);setCloudStatus('Could not sync yet: '+(e.message||'check cloud setup and connection'));}
+}
+function initializeCloudSync(){
+ updateCloudUI();
+ if(!cloudConfigured())return;
+ try{cloudClient=window.supabase.createClient(cloudConfig.url,cloudConfig.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});}
+ catch(e){setCloudStatus('Supabase configuration is invalid. Check supabase-config.js.');return;}
+ cloudClient.auth.onAuthStateChange((event,session)=>{
+   cloudUser=session?.user||null;updateCloudUI();
+   if(event==='SIGNED_OUT'){lastCloudSyncUser='';setCloudStatus('Signed out. The offline copy on this device is unchanged.');}
+   if((event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='TOKEN_REFRESHED')&&cloudUser){setTimeout(()=>syncOnLogin(),0);}
+ });
+ cloudClient.auth.getSession().then(({data,error})=>{
+   if(error){setCloudStatus('Could not read the login session: '+error.message);return;}
+   cloudUser=data.session?.user||null;updateCloudUI();if(cloudUser)syncOnLogin();
+ });
+}
 
 /* ================= PWA ================= */
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
@@ -868,8 +1143,9 @@ $('#todayYatra').textContent='Yatra day · '+yt;
 applyFilter();
 refreshProgress();
 renderAlvars();
-buildTabs();setView(['home','cards','gallery','map','discourses','alvars'].includes(state.view)?state.view:'home');
+if(state.view==='discourses')state.view='youtube';buildTabs();setView(['home','cards','gallery','map','youtube','alvars','search','settings'].includes(state.view)?state.view:'home');
 renderCard(state.idx);
+initializeCloudSync();
 </script>
 </body>
 </html>
