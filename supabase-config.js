@@ -1,11 +1,7 @@
-
-/* Divya Desams — Supabase configuration
-   Replace the placeholders with your Supabase project details.
-   Never put your service_role key or Google Client Secret here.
-*/
+/* Divya Desams — Supabase configuration */
 
 window.DIVYA_SUPABASE_CONFIG = {
-  url: "https://rkqzoalcofzdlzdyezkb.supabase.co",
-  anonKey: "sb_publishable_uzXSsg0LrILz7uHoBgjp2A_56CuBT3G"
+  url: "YOUR_EXISTING_SUPABASE_PROJECT_URL",
+  anonKey: "YOUR_EXISTING_PUBLISHABLE_KEY",
+  redirectUrl: "https://jaillerrajni1-lab.github.io/108-Divya-Desams/"
 };
-redirectUrl: "https://jailerrajni1-lab.github.io/108-Divya-Desams/"
