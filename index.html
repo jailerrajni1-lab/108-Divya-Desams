@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1b0a06">
-<meta name="description" content="Divya Kshetra Yatra — track all 108 Divya Desams of Lord Vishnu. Visits, notes, photos, maps & Divya Prabandham hymns.">
+<meta name="theme-color" content="#fff8ed">
+<meta name="description" content="Divya Kshetra Yatra — track all 108 Divya Desams with maps, Google directions, visit progress and Velukkudi discourses.">
 <title>Divya Kshetra Yatra — 108 Divya Desam Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -237,6 +237,39 @@ main{max-width:1180px;margin:0 auto;padding:0 1rem 5rem}
 footer{border-top:1px solid rgba(217,164,65,.25);padding:1.4rem 1rem 2.2rem;text-align:center}
 footer p{font-size:.72rem;color:var(--sand);opacity:.75;max-width:80ch;margin:.3rem auto;line-height:1.7}
 footer .fl{font-family:var(--disp);color:var(--gold);font-size:1rem}
+
+/* ---------- light cream & gold redesign ---------- */
+:root{--ink:#fffaf2;--ink2:#fffdf8;--ink3:#f8edda;--cream:#30251b;--paper:#fffdf8;--sand:#756653;--gold:#c78b2b;--gold2:#a86b16;--gold3:#8a5a16;--temple:#b85a36;--temple2:#98462b;--holy:#a86627;--leaf:#287653}
+body{color:var(--cream);background:#fffaf2;background-image:radial-gradient(1000px 500px at 90% -10%,rgba(242,190,111,.20),transparent 60%),radial-gradient(900px 600px at -10% 110%,rgba(210,163,93,.10),transparent 60%)}
+.ember{display:none}header{background:rgba(255,253,248,.94);border-bottom:1px solid #ead9bc;box-shadow:0 4px 20px rgba(105,72,32,.06)}
+.kolam{stroke:#b77a24}.kolam circle:last-child{fill:#b77a24}.brand h1{color:#8b591b}.brand small{color:#78664f}
+.yatraPill{background:#fff4dc;border-color:#ead4a9;color:#81571f}.installBtn{background:#d9a441;color:#fff}
+.bandCard{background:linear-gradient(120deg,#fff3d9,#fffaf0 55%,#f9ebcf);border-color:#ead5af;box-shadow:0 8px 24px rgba(120,84,36,.06)}
+.bandTxt h2,.ring b{color:#8a5a16}.bandTxt p{color:#78664f}.ring .bg{stroke:#eadfcd}.bar{background:#eee4d5}
+.chip{border-color:#e5d2ad;color:#78664f}.chip b{color:#99661f}
+.search input,select.sel{background:#fffdf8;border-color:#e4d4b9;color:#35291e}select.sel option{background:#fffdf8;color:#35291e}
+.tchip{border-color:#e2cfac;color:#725b3e;background:#fffdf8}.tchip:hover{color:#8a5a16}.tchip.on{background:#d9a441;color:#fff;border-color:#d9a441}
+.tcard{background:#fffdf8;border-color:#e6d3b3;box-shadow:0 12px 35px rgba(91,64,29,.08)}.cphoto{background:#f3e6d0}.cphoto .phFb{background:repeating-linear-gradient(45deg,#f8edda 0 14px,#f3e5cc 14px 28px)}
+.cphoto .phFb span{color:rgba(174,116,35,.4)}.cbody h3{color:#8b591b}.cbody .loc{color:#71604d}.meta span{background:#fff5e4;border-color:#ecd7b2;color:#725b3e}.meta .alvar{color:#98512c}.hist{color:#4f4336;opacity:1}
+.vbox{border-color:#d3a14c;color:#94601a}.actBtn{border-color:#e3cfab;color:#87591f;background:#fffaf0}.actBtn:hover{background:#f8edda}.noteBox textarea{background:#fffdf8;color:#35291e;border-color:#e2d0b2}.ytWrap{background:#fff8ec;border-color:#e6d3b3}.ytLabel{color:#8a5a16}
+.regionTag{color:#a45c2a;border-color:#e4c9a5}.navBtn{border-color:#e2cfac;background:#fff8eb;color:#9b6a21}.navBtn:hover{background:#d9a441;color:white}
+#map{background:#e5f4f6}.leaflet-popup-content-wrapper{background:#fffdf8;color:#30251b}.leaflet-popup-tip{background:#fffdf8}
+footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
+.menuNav{max-width:1180px;margin:.7rem auto 0;padding:0 1rem;display:flex;gap:.45rem;flex-wrap:wrap}
+.menuNav .vtab{border-radius:12px;padding:.65rem 1rem}.menuNav .vtab.on{box-shadow:0 4px 12px #d9a44135}
+.homeGrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:1rem;margin-top:1rem}
+.homePanel{background:#fffdf8;border:1px solid #ead9bc;border-radius:16px;padding:1rem;box-shadow:0 8px 25px rgba(91,64,29,.05);min-width:0}
+.homePanel h2{font-family:var(--disp);font-size:1.45rem;color:#8b591b;margin-bottom:.75rem}
+#homeMap{height:410px;border-radius:12px;overflow:hidden;border:1px solid #e8d5b4}
+.homeStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+.statBox{padding:.85rem;border-radius:12px;background:#fff7e8;border:1px solid #eedcba}.statBox b{font-size:1.4rem;color:#9a681f;display:block}.statBox span{font-size:.78rem;color:#756653}
+.regionGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:.65rem;margin-top:1rem}
+.regionCard{border:1px solid #ead9bc;background:#fffdf8;border-radius:12px;padding:.8rem;text-align:left;color:#30251b}.regionCard b{display:block;color:#8b591b;margin-bottom:.2rem}.regionCard small{color:#756653}
+.quickList{display:grid;gap:.45rem}.quickItem{display:flex;align-items:center;gap:.6rem;padding:.55rem;border-bottom:1px solid #f0e5d4;font-size:.82rem}.quickItem .status{margin-left:auto;border-radius:99px;padding:.2rem .55rem;background:#e5f5e9;color:#237349;font-size:.68rem;font-weight:800}.quickItem .status.todo{background:#fff1d9;color:#99661f}
+.discourseHero{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;background:#fff3dc;border:1px solid #ead5af;padding:1.2rem;border-radius:16px;margin-top:1rem}.discourseHero h2{font-family:var(--disp);font-size:1.6rem;color:#8b591b}.discFrame{width:100%;aspect-ratio:16/9;border:1px solid #ead9bc;border-radius:14px;margin-top:1rem;background:#fffdf8}
+.detailFacts{display:grid;grid-template-columns:80px 1fr;gap:.45rem .7rem;font-size:.86rem}.detailFacts b{color:#9a681f}.detailFacts span{color:#4f4336}.sectionLabel{font-size:.7rem;font-weight:800;letter-spacing:.12em;color:#a86627;text-transform:uppercase;margin:.3rem 0}
+@media(max-width:760px){.homeGrid{grid-template-columns:1fr}#homeMap{height:300px}.discourseHero{grid-template-columns:1fr}.cbody{padding:1rem}.deck{height:auto;min-height:700px}.cgrid{grid-template-columns:1fr}.cphoto{height:240px}.tcard{position:relative;min-height:700px}.stage{margin-bottom:1rem}}
+
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231b0a06'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23d9a441' font-family='serif'%3E%E0%AE%93%E0%AE%AE%E0%AF%8D%3C/text%3E%3C/svg%3E">
@@ -301,6 +334,14 @@ footer .fl{font-family:var(--disp);color:var(--gold);font-size:1rem}
 </nav>
 
 <main>
+  <!-- HOME DASHBOARD -->
+  <section class="view" id="view-home">
+    <div class="homeGrid">
+      <div class="homePanel"><h2>🗺️ Your Divya Desam Yatra Map</h2><div id="homeMap"></div><p style="font-size:.75rem;color:#756653;margin-top:.6rem">Pins use the modern map of India; locations are approximate. Green markers indicate visited places.</p></div>
+      <div class="homePanel"><h2>🌼 Yatra Progress</h2><div class="homeStats" id="homeStats"></div><h2 style="margin-top:1rem">Recent places</h2><div class="quickList" id="recentList"></div><button class="actBtn" style="margin-top:.8rem" onclick="setView('cards')">Open place cards →</button></div>
+    </div>
+    <div class="homePanel" style="margin-top:1rem"><h2>Explore by present-day geography</h2><p style="font-size:.82rem;color:#756653;margin-bottom:.8rem">Traditional Divya Desam regions are retained on each card. Use these broader groups to browse places by present-day state or area.</p><div class="regionGrid" id="geoRegions"></div></div>
+  </section>
   <!-- CARDS VIEW -->
   <section class="view active" id="view-cards">
     <div class="stage">
@@ -333,6 +374,12 @@ footer .fl{font-family:var(--disp);color:var(--gold);font-size:1rem}
     <div id="map"></div>
   </section>
 
+  <!-- DISCOURSES VIEW -->
+  <section class="view" id="view-discourses">
+    <div class="discourseHero"><div><h2>Velukkudi Discourses · 108 Divya Desams</h2><p style="color:#756653;font-size:.86rem;margin-top:.35rem">Official Velukkudi TV playlist. Select a temple video from the playlist or open the complete series.</p></div><a class="actBtn" href="https://velukkudi.tv/stream/playlist/108-divya-desam/" target="_blank" rel="noopener">Open official playlist ↗</a></div>
+    <iframe class="discFrame" loading="lazy" title="Velukkudi TV 108 Divya Desams playlist" src="https://velukkudi.tv/stream/playlist/108-divya-desam/" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <p style="font-size:.78rem;color:#756653;margin-top:.6rem">If the publisher blocks embedded playback in your browser, use “Open official playlist”. Some discourses may require a Velukkudi TV membership.</p>
+  </section>
   <!-- ALVARS VIEW -->
   <section class="view" id="view-alvars">
     <div class="almGrid" id="almGrid"></div>
@@ -486,7 +533,8 @@ const store={
   set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
 };
 let visits=store.get(K.v,{}), notes=store.get(K.n,{}), photos=store.get(K.p,{});
-let state=store.get(K.s,{view:'cards',idx:0,q:'',region:'',sort:'no',vis:'all'});
+let state=store.get(K.s,{view:'home',idx:0,q:'',region:'',sort:'no',vis:'all'});
+if(!state.view)state.view='home';
 const saveAll=()=>{store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);};
 const slug=i=>T[i].n.toLowerCase().replace(/[^a-z0-9]+/g,'-');
 const imgURL=i=>`https://upload.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(slug(i))}.jpg?width=900`;
@@ -551,7 +599,7 @@ function renderCard(listPos){
   const deck=$('#deck');
   if(!LIST.length){deck.innerHTML=`<div class="tcard" style="display:grid;place-items:center;text-align:center;padding:2rem"><div><h3 style="font-family:var(--disp);color:var(--gold2)">No temples match</h3><p style="color:var(--sand);margin-top:.5rem;font-size:.85rem">Try clearing search or filters.</p></div></div>`;$('#posNow').textContent=0;return;}
   const i=LIST[listPos], t=T[i];
-  const yt=`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(t.y+' divya prabandham')}&rel=0`;
+  const yt='https://www.youtube.com/embed/videoseries?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8';
   deck.innerHTML=`
   <article class="tcard ${visits[t.n]?'visited':''}" id="card">
     <span class="doneBadge">✓ DARSHAN DONE</span>
@@ -571,12 +619,15 @@ function renderCard(listPos){
         <div class="meta">
           <span>${esc(t.r)}</span><span class="alvar">🎶 ${esc(t.a)}</span><span>#${i+1} of 108</span>
         </div>
-        <p class="hist">${esc(t.h)}</p>
+        <div class="sectionLabel">Location</div>
+        <div class="detailFacts"><b>Place</b><span>${esc(t.l)}</span><b>Region</b><span>${esc(t.r)} · ${esc(geoGroup(t))}</span><b>Perumal</b><span>${esc(t.d)}</span><b>Thayar</b><span>${esc(t.thayar||'Please verify with the temple / trusted sthala source')}</span></div>
+        <div class="sectionLabel">History</div><p class="hist">${esc(t.h)}</p>
         <div class="vrow">
           <label class="vlabel"><input type="checkbox" id="chk" ${visits[t.n]?'checked':''}><span class="vbox">✓</span><span class="vtxt">${visits[t.n]?'Visited':'Mark as visited'}</span></label>
           <button class="actBtn" id="bPhoto">📷 Add photo</button>
-          <button class="actBtn" id="bDir">🧭 Directions</button>
+          <button class="actBtn" id="bDir">📍 Google Maps directions</button>
           <button class="actBtn" id="bWiki">📖 More</button>
+          <button class="actBtn" id="bVel">▶ Velukkudi discourse</button>
           <button class="actBtn red" id="bDel" style="display:none">🗑 Photo</button>
         </div>
         <div class="noteBox">
@@ -627,7 +678,8 @@ function wireCard(i){
     };inp.click();
   };
   $('#bDel').onclick=()=>{delete photos[t.n];saveAll();refreshThumbs();mainImg.src=imgURL(i);toast('Photo removed');};
-  $('#bDir').onclick=()=>{if(!t.c){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(`https://www.openstreetmap.org/directions?to=${t.c[0]}%2C${t.c[1]}`,'_blank');};
+  $('#bDir').onclick=()=>{if(!t.c){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(`https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}&destination_place_id=&travelmode=driving`,'_blank','noopener');};
+  $('#bVel').onclick=()=>window.open('https://velukkudi.tv/stream/playlist/108-divya-desam/','_blank','noopener');
   $('#bWiki').onclick=()=>window.open(WIKI(t.n),'_blank');
   mainImg.onclick=()=>openLB(mainImg.src,t.n+' · '+t.l);
   /* swipe */
@@ -689,13 +741,40 @@ function initMap(){
     const m=L.marker(t.c,{icon:makeIcon(t)}).addTo(map);
     m.bindPopup(`<div class="mkPop"><b>${esc(t.n)}</b><br><small>${esc(t.d)} · ${esc(t.l)}</small>
       <div class="popRow"><button class="bOpen" onclick="goToGlobal(${i})">Open card →</button>
-      <button class="bDir" onclick="window.open('https://www.openstreetmap.org/directions?to=${t.c[0]},${t.c[1]}','_blank')">Directions</button></div></div>`,{maxWidth:250});
+      <button class="bDir" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}','_blank')">Directions</button></div></div>`,{maxWidth:250});
     markers[i]=m;
   });
 }
 function refreshMapIcons(){if(!map)return;T.forEach((t,i)=>{if(markers[i])markers[i].setIcon(makeIcon(t));});}
 function fitList(arr){if(!map)return;const pts=arr.map(i=>T[i].c).filter(Boolean);if(!pts.length)return;
   map.fitBounds(L.latLngBounds(pts).pad(0.2),{maxZoom:11});}
+
+/* ================= HOME DASHBOARD & GEOGRAPHY ================= */
+function geoGroup(t){
+ const s=(t.l+' '+t.r).toLowerCase();
+ if(t.r==='Celestial')return 'Celestial abodes';
+ if(/karnataka|melkote|mangalore|udupi/.test(s))return 'Karnataka';
+ if(/tamil nadu|chennai|kanchipuram|tiruchirappalli|madurai|srirangam|tamilnadu/.test(s))return 'Tamil Nadu';
+ if(/kerala|malai nadu|thiruvalla|tirunavaya|thrissur|kochi|alappuzha|chengannur/.test(s))return 'Kerala';
+ if(/ayodhya|badrinath|devaprayag|mathura|vrindavan|dwarka|gujarat|uttar pradesh|uttarakhand|maharashtra|andhra|odisha|puri|nepal/.test(s)||t.r==='Vada Nadu')return 'Other regions of India';
+ return t.r==='Malai Nadu'?'Kerala':t.r==='Vada Nadu'?'Other regions of India':'Tamil Nadu';
+}
+let homeMap=null,homeMarkers=[];
+function initHomeMap(){
+ if(homeMap||!window.L)return;
+ const el=document.getElementById('homeMap');if(!el)return;
+ homeMap=L.map('homeMap',{scrollWheelZoom:false}).setView([17.8,78.5],5);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap contributors'}).addTo(homeMap);
+ T.forEach((t,i)=>{if(!t.c)return;const visited=!!visits[t.n];const marker=L.circleMarker(t.c,{radius:visited?7:5,color:visited?'#237a52':'#c78b2b',fillColor:visited?'#3aa66f':'#efc56f',fillOpacity:.9,weight:2}).addTo(homeMap);marker.bindPopup(`<b>${esc(t.n)}</b><br>${esc(t.l)}<br><small>${visited?'✓ Visited':'○ Not visited'}</small><br><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}">Google Maps directions</a><br><button onclick="goToGlobal(${i})">Open place card</button>`);homeMarkers.push(marker);});
+}
+function renderHome(){
+ const visited=T.filter(t=>visits[t.n]).length,unvisited=T.length-visited;
+ const stats=[[''+visited,'Places visited'],[''+unvisited,'Still to visit'],[Math.round(visited/108*100)+'%','Yatra completed'],[''+Object.keys(notes).filter(k=>(notes[k]||'').trim()).length,'Places with notes']];
+ const st=document.getElementById('homeStats');if(st)st.innerHTML=stats.map(([n,l])=>`<div class="statBox"><b>${n}</b><span>${l}</span></div>`).join('');
+ const recent=document.getElementById('recentList');if(recent){const done=T.filter(t=>visits[t.n]).sort((a,b)=>(visits[b.n]||0)-(visits[a.n]||0)).slice(0,5);recent.innerHTML=(done.length?done:T.filter(t=>t.r!=='Celestial').slice(0,5)).map(t=>`<div class="quickItem"><span>🛕</span><span>${esc(t.n)}<br><small style="color:#756653">${esc(t.l)}</small></span><span class="status ${visits[t.n]?'':'todo'}">${visits[t.n]?'Visited':'To visit'}</span></div>`).join('');}
+ const groups=['Tamil Nadu','Karnataka','Kerala','Other regions of India','Celestial abodes'];const rg=document.getElementById('geoRegions');if(rg)rg.innerHTML=groups.map(g=>{const a=T.filter(t=>geoGroup(t)===g),done=a.filter(t=>visits[t.n]).length;return `<button class="regionCard" data-geogroup="${g}"><b>${g}</b><small>${done} / ${a.length} visited · ${a.length-done} to visit</small></button>`}).join('');
+ rg?.querySelectorAll('[data-geogroup]').forEach(b=>b.onclick=()=>{state.region='';state.q='';state.vis='all';state.idx=0;$('#q').value='';$('#regionSel').value='';document.querySelectorAll('.tchip[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==='all'));applyFilter();LIST=LIST.filter(i=>geoGroup(T[i])===b.dataset.geogroup);renderCard(0);setView('cards');});
+}
 
 /* ================= VIEWS ================= */
 const tabEls=[];
@@ -704,14 +783,13 @@ function setView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
   document.querySelectorAll('.vtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   if(v==='map'){setTimeout(()=>{initMap();map.invalidateSize();fitList(LIST);},60);}
+  if(v==='home'){setTimeout(()=>{initHomeMap();if(homeMap)homeMap.invalidateSize();renderHome();},60);}
   if(v==='gallery')renderGallery();
 }
 function buildTabs(){
-  const nav=document.createElement('nav');
-  nav.style.cssText='max-width:1180px;margin:.9rem auto 0;padding:0 1rem;display:flex;gap:.4rem;flex-wrap:wrap';
-  [['cards','🛕 Place Cards'],['gallery','🧭 All 108'],['map','🗺 Map'],['alvars','🌸 The Alvars']].forEach(([v,lb])=>{
-    const b=document.createElement('button');b.className='tchip vtab';b.dataset.v=v;b.textContent=lb;
-    b.onclick=()=>setView(v);nav.appendChild(b);
+  const nav=document.createElement('nav');nav.className='menuNav';
+  [['home','⌂ Home'],['cards','🛕 Place Cards'],['gallery','☷ All 108'],['map','🗺 Map'],['discourses','▶ Velukkudi Discourses'],['alvars','🌸 Alvars']].forEach(([v,lb])=>{
+    const b=document.createElement('button');b.className='tchip vtab';b.dataset.v=v;b.textContent=lb;b.onclick=()=>setView(v);nav.appendChild(b);
   });
   $('.controls').after(nav);
 }
@@ -787,11 +865,10 @@ const yt=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',mo
 $('#todayYatra').textContent='Yatra day · '+yt;
 
 /* ================= INIT ================= */
-buildTabs();
 applyFilter();
 refreshProgress();
 renderAlvars();
-setView(state.view||'cards');
+buildTabs();setView(['home','cards','gallery','map','discourses','alvars'].includes(state.view)?state.view:'home');
 renderCard(state.idx);
 </script>
 </body>
