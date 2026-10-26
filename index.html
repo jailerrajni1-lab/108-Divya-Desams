@@ -299,6 +299,11 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
  body{background:#fff!important;color:#111!important;padding:0!important}body>*:not(#printReport){display:none!important}#printReport.printing{display:block!important;padding:1rem!important;color:#111!important}#printReport h1{font-size:22pt;margin-bottom:8pt}#printReport .printMantra{margin-bottom:8pt;font-weight:bold}#printReport table{width:100%;border-collapse:collapse;font-size:8pt}#printReport th,#printReport td{border:1px solid #bbb;padding:4pt;text-align:left;vertical-align:top}#printReport th{background:#f4ead8}
 }
 
+body:not([data-view="cards"]):not([data-view="gallery"]) nav.controls{display:none}
+.sumLine{font-size:.9rem;color:var(--gold);font-weight:600;margin:.1rem 0 .4rem}
+.ytLinks{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.ytSearchBox{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.ytSearchBox select{flex:1;min-width:180px;padding:.6rem .8rem;border-radius:10px;border:1px solid #e5d6b8;background:#fff;font:inherit}
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" href="./icon-192.png">
@@ -322,26 +327,10 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
   </div>
 </header>
 
-<section class="band">
-  <div class="bandCard">
-    <div class="bandRow">
-      <div class="ring">
-        <svg width="92" height="92"><circle class="bg" cx="46" cy="46" r="40"/><circle class="fg" id="ringFg" cx="46" cy="46" r="40"/></svg>
-        <b id="ringNum">0</b>
-      </div>
-      <div class="bandTxt">
-        <h2 id="progTitle">Your yatra awaits</h2>
-        <p id="progSub">Tick temples as you visit them — your progress is saved on this device. Sign in with Google in Settings to sync across devices.</p>
-      </div>
-      <div class="pctChips" id="pctChips"></div>
-    </div>
-    <div class="bar"><i id="progBar"></i></div>
-  </div>
-</section>
 
 <nav class="controls">
-  <select class="sel" id="regionSel" aria-hidden="true" tabindex="-1" style="display:none">
-    <option value="">All regions</option>
+  <select class="sel" id="regionSel" aria-label="Filter by state">
+    <option value="">All states</option>
   </select>
   <select class="sel" id="sortSel">
     <option value="no">Order: Traditional #</option>
@@ -363,6 +352,22 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 <main>
   <!-- HOME DASHBOARD -->
   <section class="view" id="view-home">
+<section class="band">
+  <div class="bandCard">
+    <div class="bandRow">
+      <div class="ring">
+        <svg width="92" height="92"><circle class="bg" cx="46" cy="46" r="40"/><circle class="fg" id="ringFg" cx="46" cy="46" r="40"/></svg>
+        <b id="ringNum">0</b>
+      </div>
+      <div class="bandTxt">
+        <h2 id="progTitle">Your yatra awaits</h2>
+        <p id="progSub">Tick temples as you visit them — your progress is saved on this device. Sign in with Google in Settings to sync across devices.</p>
+      </div>
+      <div class="pctChips" id="pctChips"></div>
+    </div>
+    <div class="bar"><i id="progBar"></i></div>
+  </div>
+</section>
     <div class="homeGrid">
       <div class="homePanel"><h2>🗺️ Your Divya Desam Yatra Map</h2><div id="homeMap"></div><p style="font-size:.75rem;color:#756653;margin-top:.6rem">Pins use the modern map of India; locations are approximate. Green markers indicate visited places.</p></div>
       <div class="homePanel"><h2>🌼 Yatra Progress</h2><div class="homeStats" id="homeStats"></div><h2 style="margin-top:1rem">Recent places</h2><div class="quickList" id="recentList"></div><button class="actBtn" style="margin-top:.8rem" onclick="setView('cards')">Open place cards →</button></div>
@@ -392,7 +397,8 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 
   <!-- EXPLORE VIEW (map-based; no region-wise breakout) -->
   <section class="view" id="view-map">
-    <div class="exploreHead"><h2>Explore Divya Desams</h2><p>Explore temple locations on the map, open a place card, or get directions.</p></div>
+    <div class="exploreHead"><h2>Explore Divya Desams</h2><p>Filter by state, tap a marker to open its card, or get directions.</p></div>
+    <div class="chips" id="stateChips" role="group" aria-label="Filter by state" style="margin:.4rem 0 .6rem"></div>
     <div class="mapBar">
       <span class="mapHint">Tap any marker to open its temple card. Green = visited.</span>
       <button class="actBtn" id="fitAll">Show all 108</button>
@@ -403,9 +409,10 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 
   <!-- YOUTUBE PLAYLIST VIEW -->
   <section class="view" id="view-youtube">
-    <div class="discourseHero"><div><h2>108 Divya Desams · YouTube Playlist</h2><p style="color:#756653;font-size:.86rem;margin-top:.35rem">Watch the playlist here, or open it directly on YouTube.</p></div><a class="actBtn" href="https://www.youtube.com/playlist?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8" target="_blank" rel="noopener">Open YouTube playlist ↗</a></div>
-    <iframe class="discFrame" loading="lazy" title="108 Divya Desams YouTube playlist" src="https://www.youtube.com/embed/videoseries?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-    <p style="font-size:.78rem;color:#756653;margin-top:.6rem">If embedded playback is unavailable, use “Open YouTube playlist”.</p>
+    <div class="discourseHero"><div><h2>Find videos of a Divya Desam</h2><p style="color:#756653;font-size:.86rem;margin-top:.35rem">Pick a temple and search YouTube for its videos, history and darshan.</p></div></div>
+    <div class="ytSearchBox"><select id="ytTemple" aria-label="Choose temple"></select></div>
+    <div class="ytLinks" id="ytLinks"></div>
+    <p style="font-size:.78rem;color:#756653;margin-top:.8rem">Results open on YouTube in a new tab.</p>
   </section>
   <!-- SEARCH VIEW -->
   <section class="view" id="view-search">
@@ -444,7 +451,7 @@ footer{color:#78664f;border-top-color:#ead9bc}footer .fl{color:#9a681f}
 
 <footer>
   <p class="fl">Hari Sarvottama Vayu Jivottama · ॐ नमो भगवते वासुदेवाय · ॐ नमो नारायणाय</p>
-  <p>The 108 Divya Desams are the Vishnu temples glorified in the Nalayira Divya Prabandham of the twelve Alvars. Data compiled from traditional Divya Desam lists — histories are brief summaries; map pins are approximate town-level locations, tap “Directions” for live navigation. Your visits, notes and photos stay on this device for offline use. Sign in with Google in Settings to sync progress and uploaded photos securely when online.</p>
+  <p>The 108 Divya Desams are the Vishnu temples glorified in the Nalayira Divya Prabandham of the twelve Alvars. Data compiled from traditional Divya Desam lists — histories are brief summaries, so please verify with the temple; map pins are approximate, and “Directions” searches Google Maps by temple name. Your visits, notes and photos stay on this device for offline use. Sign in with Google in Settings to sync progress and uploaded photos securely when online.</p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -566,6 +573,12 @@ const T=[
 {n:"Thiruparamapadam",d:"Paramapadanathan",l:"Sri Vaikuntha (celestial abode; not an earthly travel destination)",r:"Celestial",a:"Azhwars",y:"Thiruparamapadam Divya Desam temple",c:null,h:"Thiruparamapadam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."}
 ];
 
+const INFO=[{"th": "Ranganayaki", "a": "", "s": "First Divya Desam: island temple of the reclining Ranganatha.", "h": "On an island between the Kaveri and Kollidam. Brahma worshipped the Pranavakara Vimana, which Rama gave Vibhishana after Lanka; when set down here it could not be lifted, and Ranganatha stays facing south towards Lanka. Ramanuja later organised its administration."}, {"th": "Kamalavalli Nachiyar", "a": "", "s": "Uraiyur shrine, once the ancient Chola capital.", "h": "Uraiyur (Thirukkoli) was an early Chola capital. Tradition says Ranganatha married the Chola princess Kamalavalli here. Thiruppanazhwar is held to have been born at Uraiyur."}, {"th": "Purvadevi (Poornavalli)", "a": "", "s": "Shrine of the Trimurti: Brahma, Vishnu and Shiva together.", "h": "At Uthamarkoil, a Kadamba tree gave Karambanur its name. Vishnu is said to have filled Shiva's alms-bowl (skull of Brahma's fifth head), and the temple has shrines for Brahma, Vishnu and Shiva."}, {"th": "Pankajavalli", "a": "", "s": "White-rock temple with a swastika-shaped well.", "h": "Thiruvellarai means white rock. The temple is on a rocky outcrop, with a swastika-shaped well and two doorways (Uttarayana and Dakshinayana) used in alternate half-years. Pundarikaksha stands facing east."}, {"th": "Alarmelmangai", "a": "", "s": "Lord Brahma worshipped Vadivazhagiya Nambi here.", "h": "Brahma is said to have performed penance here after losing his pride; the Lord appeared in a form of beauty (Vadivazhagiya Nambi), reclining facing east. Named for 'anbu' (love)."}, {"th": "Kamalavalli, Indira Devi", "a": "", "s": "Appalarangam, 2nd of the five Pancharanga Kshetrams.", "h": "On the Kaveri bank, one of the five Pancharanga Kshetrams. The Lord gave appam (a rice cake) to the hungry sage Upamanyu, hence Appakkudathaan; he reclines in the Ranganatha form."}, {"th": "Kamalavalli", "a": "", "s": "Where Shiva was freed from Brahma-hatya.", "h": "Legend: Shiva's hand was stuck with Brahma's fifth head after he plucked it. Vishnu freed him here, hence Hara Saabha Vimochana. Brahma and Shiva shrines share the complex."}, {"th": "Padmasani Nachiyar", "a": "", "s": "Temple of the Lord who protects the world, near the Kaveri-Kollidam confluence.", "h": "Koodalur means confluence. The Lord Jagathrakshakan (Vaiyam Kathan) stands facing east; sage Kanva and Brahma are linked to the sthalam."}, {"th": "Ramamani Valli", "a": "", "s": "Gajendra Moksham sthalam in Kabisthalam.", "h": "Here Vishnu rescued the elephant Gajendra from a crocodile. Hanuman (Kapi) is also said to have worshipped here, giving Kabisthalam its name."}, {"th": "Boomadevi, Poo Devi", "a": "", "s": "Rama performed Jatayu's last rites here.", "h": "Rama, in a reclining pose on darbha grass, is said to have performed funeral rites for the bird Jatayu. Rama stands facing east as Valvil Rama in the main shrine."}, {"th": "Ranganayaki", "a": "", "s": "Where the Lord is shown measuring grain with a marakkal.", "h": "Ranganatha reclines with a marakkal (grain measure) under his head and a measuring stick. Kamadhenu is said to have worshipped here."}, {"th": "Komalavalli", "a": "", "s": "Sarangapani temple in Kumbakonam, with a chariot-shaped sanctum.", "h": "The sanctum is chariot-shaped. Lord Aravamudhan (Sarangapani) emerged from the golden Potramarai tank for sage Hema and married his daughter Komalavalli. Thirumazhisai Azhwar spoke to him here."}, {"th": "Bhoomi Devi", "a": "", "s": "Oppiliappan, whose food is cooked without salt.", "h": "The Lord asked sage Markandeya for the hand of his daughter Bhoomidevi (born of Tulasi). Markandeya said she could not cook without salt, so the Lord agreed to take saltless food. No salt is used in prasadam here."}, {"th": "Vanjulavalli", "a": "", "s": "Nachiyar Kovil, where the Garuda idol grows heavier in procession.", "h": "Medhavi rishi worshipped here. The Lord is Srinivasa (Thirunarayur Nambi) and the Garuda idol is carried on procession, famed for growing heavier the farther it travels from the shrine."}, {"th": "Sara Nayaki (Saranayaki)", "a": "", "s": "Panchasara Kshetra, with Sara Pushkarani.", "h": "The five Lakshmis are said to dwell in the Sara Pushkarani. The Lord is Saranatha, and the sthalam is one of the Pancha Sara Kshetrams."}, {"th": "Abhishekavalli", "a": "", "s": "Krishnaranya Kshetram where Lakshmi did penance.", "h": "Lakshmi is said to have done penance here to unite with the Lord. The Lord Bhaktavatsala stands facing east; the town is counted among the five Krishnaranya Kshetrams."}, {"th": "Kannapura Nayaki", "a": "", "s": "Where the Lord is called Sowriraja, with lovely hair.", "h": "The Lord's flowing hair-locks (sowri) inspired Thirumangai Azhwar's many hymns. One of the Krishnaranya Kshetrams; Sowriraja stands with an unusual head of hair."}, {"th": "Aravinda Nayaki", "a": "", "s": "Krishnaranya Kshetram with Lokanatha.", "h": "Sage Vasishtha is said to have worshipped here; the Lord Lokanatha stands facing east in a dark-blue complexion (Shyamalameni)."}, {"th": "Soundaravalli", "a": "", "s": "Soundararaja temple in Nagapattinam.", "h": "Adisesha is said to have worshipped here, hence Nagai. Thirumangai Azhwar, per tradition, took gold from a Buddhist statue at Nagapattinam to build parts of the Srirangam walls."}, {"th": "Senkamalavalli", "a": "", "s": "Neelamegha's victory over Tanjan and other asuras.", "h": "Tradition: three demons Tanjan, Tandakan and Gajamukhan, were defeated by the Lord as Neelamegha Perumal. Tanjavur is named after Tanjan."}, {"th": "Senbagavalli", "a": "", "s": "Nandi's temple of Vishnu, Nathan Kovil.", "h": "Nandi (Shiva's bull) did penance here; Vishnu appeared as Jagannatha. The sthalam is named Nandipura Vinnagaram."}, {"th": "Maragathavalli", "a": "", "s": "Kolavilli Rama, associated with Shukra (Venus).", "h": "Shukracharya (Velli) worshipped the Lord, giving the village its name. Rama appears as Kolavilli Rama holding a bow."}, {"th": "Senkamalavalli", "a": "", "s": "Devadhirajan temple at Therazhundur, birthplace of Kamban.", "h": "Therazhundur is the birthplace of the poet Kamban. The Lord Devadhirajan (Aamaruviappan) is linked to Brahma, Indra and Kamadhenu."}, {"th": "Thirumamagal Nachiyar", "a": "", "s": "Krupasamudra Perumal reclines at Thiruchirupuliyur.", "h": "The Lord reclines here as Krupasamudra Perumal, and sage Vyaghrapada (tiger-footed) is associated with the shrine. Verify finer details with the temple."}, {"th": "Thalaichanga Nachiyar", "a": "", "s": "Nanmadiyam, where Chandra was freed of a curse.", "h": "Chandra (the moon) is said to have been freed here of a curse, hence Nanmadiyam. The Lord is Naanmadiya Perumal at Thalachanga."}, {"th": "Parimala Ranganayaki", "a": "", "s": "Indalur, the temple where Chandra and Ambarisha worshipped.", "h": "Chandra (Indu) worshipped Ranganatha here to remove a curse; King Ambarisha is also said to have gained moksha. The Lord is Parimala Ranganatha reclining."}, {"th": "Madhuravalli (with Rukmini, Satyabhama)", "a": "", "s": "One of the eleven Divya Desams of Thirunangur.", "h": "Krishna is shown as Gopalakrishnan with Rukmini and Satyabhama. A member of the Thirunangur eleven, whose Perumals come together for the Garuda Sevai."}, {"th": "Lokanayaki", "a": "", "s": "Sirkazhi's Trivikrama, with one foot raised.", "h": "The Lord Thadalan (Trivikrama) stands with his left foot raised in the Vamana-Trivikrama pose; Sirkazhi is also known for the Shiva temple."}, {"th": "Amruthakadavalli", "a": "", "s": "Kudamaadu Koothan: the pot-dancing Krishna.", "h": "Krishna is said to have danced with pots (Kudamaadu Koothan). One of the Thirunangur eleven."}, {"th": "Purushottama Nayaki", "a": "", "s": "Vanpurushottamam, one of the Thirunangur eleven.", "h": "The Lord Purushottama stands facing east in the Thirunangur cluster. Sage Upamanyu is traditionally linked here."}, {"th": "Alli Malar Nachiyar", "a": "", "s": "Sembonsei Koil: golden Ranganatha of Thirunangur.", "h": "The name means golden-making temple; the Lord is Hemaranganatha (Perarulalan), a reclining Ranganatha, among the eleven Thirunangur Divya Desams."}, {"th": "Pundarikavalli", "a": "", "s": "Manimadakoil, a Thirunangur Divya Desam.", "h": "The Lord Narayana is worshipped here with Pundarikavalli; Garuda Sevai of the eleven Perumals comes here."}, {"th": "Vaikuntavalli", "a": "", "s": "Vaikuntha Vinnagaram, with the Lord seated.", "h": "The Lord Vaikunta Natha, seated, with Vaikuntavalli. A Thirunangur Divya Desam."}, {"th": "Amruthavalli", "a": "", "s": "Where Kaliyan received the Ashtakshara mantra and became Thirumangai Azhwar.", "h": "Kaliyan, a chieftain, tried to rob a wedding party that was the Lord himself (Vayalali Manavalan); the Lord gave him the Ashtakshara mantra. He then became Thirumangai Azhwar."}, {"th": "Kadalmagal Nachiyar", "a": "", "s": "Devanayaka Perumal of Thirunangur.", "h": "The Lord Devanayaka (Madhavan), worshipped by the devas; one of the Thirunangur eleven."}, {"th": "Senkamalavalli", "a": "", "s": "Lakshmi Ranganatha at Thirunangur.", "h": "The Lord Lakshmi Ranganatha, in the reclining form; one of the eleven."}, {"th": "", "a": "", "s": "Thirumanikoodam, with Varadharaja.", "h": "The Lord Varadharaja (Mani Koodam) is a Thirunangur Divya Desam."}, {"th": "Alarmelmangai", "a": "", "s": "Thiruvellakkulam, known as Annan Koil.", "h": "The Lord is Srinivasa, known as Annan Perumal; the temple lies near Thirunangur."}, {"th": "Senthamarai Nachiyar", "a": "", "s": "Parthanpalli, associated with Arjuna.", "h": "Arjuna (Partha) worshipped Lord Parthasarathy here. The Lord appears with the lotus-seated Goddess."}, {"th": "Pundarikavalli", "a": "", "s": "Govindaraja shrine inside the Thillai Nataraja temple, Chidambaram.", "h": "Govindaraja Perumal reclines in a shrine within the Nataraja temple at Chidambaram, one of the few places where a Shiva and a Vishnu shrine share a compound."}, {"th": "Hemambujavalli", "a": "", "s": "Devanatha temple at Thiruvanthipuram, Vedanta Desika's home for years.", "h": "On the Garuda river. Vedanta Desika lived here for decades; Aushadagiri hill has a Hayagriva shrine, and Adisesha (Ahindra) is linked to the name."}, {"th": "Pushpavalli", "a": "Poigai, Bhoothath and Peyazhwar", "s": "Where the first three Azhwars met in a narrow vestibule.", "h": "The three early Azhwars were sheltering from rain in a narrow passage when the Lord joined them, prompting their Tiruvandadis. The Lord is Ulagalantha (Trivikrama)."}, {"th": "Perundevi Thayar", "a": "", "s": "Varadharaja Perumal on Hastigiri, born from Brahma's yagna fire.", "h": "The Lord appeared from Brahma's Ashvamedha fire on Hastigiri. The Atthi Varadhar idol, carved of fig wood, rests in the Ananta Saras tank and is brought out once every 40 years (last in 2019). Ramanuja and Vedanta Desika are closely linked."}, {"th": "Alarmelmangai", "a": "", "s": "Eight-armed Lord who protected Brahma's yagna.", "h": "The Lord Ashtabhuja, with eight arms bearing weapons, is said to have protected Brahma's yagna from a demon sent by Saraswati."}, {"th": "Maragathavalli", "a": "", "s": "Vilakkoli Perumal, birthplace of Vedanta Desika.", "h": "When Saraswati's anger cast darkness over Brahma's yagna, the Lord appeared as light. Vedanta Desika was born at Thoopul in this precinct."}, {"th": "Amruthavalli", "a": "", "s": "Yoga Narasimha shrine in Kanchipuram.", "h": "Azhagiya Singar (Narasimha) is shown seated in yoga pose here. Thayar is Amruthavalli."}, {"th": "Nilamangai Valli", "a": "", "s": "Neeragam, within the Ulagalantha temple.", "h": "One of four Divya Desams (Ooragam, Neeragam, Karagam, Karvanam) in the Ulagalantha Perumal temple complex, Kanchipuram."}, {"th": "Rukmini, Satyabhama", "a": "", "s": "The Lord as Krishna the messenger of the Pandavas.", "h": "Krishna sits as Pandavadootha, with the Pandavas' envoy mission to Duryodhana. The 25-foot idol is among the largest seated Krishna images in South India. Janamejaya is said to have worshipped here."}, {"th": "Nilathingal Thundathan Thayar", "a": "", "s": "A Vishnu shrine inside the Ekambareswarar temple.", "h": "The small Vishnu temple adjoins the Ekambareswarar temple. The name means the moon-crescent piece, referring to Shiva's crescent."}, {"th": "Amudavalli", "a": "", "s": "Ulagalantha Perumal, whose Trivikrama form is 35 feet tall.", "h": "Lord Trivikrama strides with one foot raised. The same complex holds Neeragam, Karagam and Karvanam."}, {"th": "Komalavalli", "a": "", "s": "Birthplace of Poigai Azhwar; Lord who obeyed his command.", "h": "Poigai Azhwar was born in the temple tank. The Lord Yathothkari ('did as told') followed Thirumazhisai Azhwar's command to follow him, then returned. Reclines facing east."}, {"th": "Padmamani Nachiyar", "a": "", "s": "Karagam, in the Ulagalantha temple precinct.", "h": "Karunagara Perumal here is one of the four Divya Desams in the Ulagalantha complex."}, {"th": "Kamalavalli", "a": "", "s": "Karvanam, in the Ulagalantha temple precinct.", "h": "Neelamega Perumal here is one of the four Divya Desams in the Ulagalantha complex."}, {"th": "Anjilai Valli", "a": "", "s": "Kalvanur, the Adi Varaha shrine in the Kamakshi temple precinct.", "h": "The Lord is known as Kalvan (thief), within the Kamakshi Amman temple complex in Kanchipuram."}, {"th": "Pavalavalli", "a": "", "s": "Pavalavannam, the coral-coloured Lord.", "h": "The Lord's name means the coral-coloured one. A neighbouring shrine, Pachaivannan, forms a pair."}, {"th": "Vaikuntavalli", "a": "", "s": "Pallava-era Vaikunta Perumal temple built about the 8th century.", "h": "Built by the Pallava king Nandivarman II (Pallavamalla), with fine sculpted panels of Pallava history. Three storeys hold the Lord seated, reclining and standing."}, {"th": "Maragathavalli", "a": "", "s": "Where Rama performed Jatayu's last rites.", "h": "Rama is said to have cremated Jatayu here (pul = bird). The Lord is Vijayaraghava, and the temple also associates with Jatayu's funeral."}, {"th": "Ennai Petra Thayar", "a": "", "s": "Bhaktavatsala temple near Chennai, Samudra Raja's story.", "h": "Lakshmi is traditionally said to have been born to the Sea King (Samudra Raja), who worshipped the Lord here; hence the Thayar is Ennai Petra Thayar and the Lord Bhaktavatsala."}, {"th": "Kanakavalli", "a": "", "s": "Veeraraghava Perumal, reclining; healing temple.", "h": "The Lord Vaidya Veeraraghava reclines on Adisesha, after answering sage Salihotra's request for food. Bathing in the Hrudthapanashini tank on Amavasya is considered sacred."}, {"th": "Vedavalli (Rukmini)", "a": "", "s": "Parthasarathy temple of Triplicane.", "h": "The Lord stands as Krishna the charioteer of Arjuna. Shrines include Rama, Narasimha, Varaha and Gajendra Varada. Sage Atreya is associated with the sthalam."}, {"th": "Animamalar Mangai", "a": "", "s": "Hill shrine with four forms: standing, sitting, reclining, walking.", "h": "The Lord appears as Neervanna (standing), Narasimha (seated), Ranganatha (reclining) and Trivikrama (walking), on a small hill."}, {"th": "Komalavalli", "a": "", "s": "Where Varaha married a new bride daily.", "h": "Rishi Kala's 360 daughters were wed to the Lord Varaha, one each day, and he merged them into one (Akhilavalli). Hence Nithya Kalyana Perumal."}, {"th": "Nilamangai Thayar", "a": "", "s": "Sthalasayana Perumal, shore temple town of Mahabalipuram.", "h": "The Lord reclines on the ground (sthala). Bhoothathazhwar was born at Mamallapuram; sage Pundarika offered a lotus to the Lord here."}, {"th": "Amruthavalli", "a": "", "s": "Hill temples of Yoga Narasimha and Yoga Anjaneya.", "h": "At Sholinghur, a small hill holds Yoga Anjaneya and a large hill Yoga Narasimha. Sage Vishwamitra is associated with the sthalam."}, {"th": "Malarmangai Nachiyar", "a": "", "s": "Navamukundan temple on the Bharathapuzha.", "h": "The nine yogis (Navayogis) are said to have worshipped here. The temple stands on the Bharathapuzha river at the Mamankam site."}, {"th": "Vithuvakodu Valli", "a": "", "s": "Kulasekhara Azhwar's plea for refuge.", "h": "Kulasekhara Azhwar sang his plaintive decad here. Tradition holds the Pandava Yudhishthira worshipped here; the Lord is Abhayapradhan."}, {"th": "Perumchelvanayaki", "a": "", "s": "Vamana's Kerala temple, linked to Onam and Mahabali.", "h": "At Thrikkakara, the Lord Vamana is associated with King Mahabali's Onam legend."}, {"th": "Madhuravalli", "a": "", "s": "Lakshmana is associated with this Kerala temple.", "h": "Thirumoozhikkulam Perumal is tied to Lakshmana worship; the Lord is Sookthinatha (Moozhikkulathappan)."}, {"th": "Selvathirukozhundu Nachiyar", "a": "", "s": "Sri Vallabha temple of Thiruvalla.", "h": "The Lord Sri Vallabha is closely associated with Sudarshana Chakra worship; the Thiruvalla temple is among Kerala's oldest Vishnu temples."}, {"th": "Karpagavalli Nachiyar", "a": "", "s": "Thrikkodithanam Amruthanarayana.", "h": "The Lord Adbhuta Narayana, also tied to Sahadeva of the Pandavas, in Kuttanad region."}, {"th": "", "a": "", "s": "Chengannur Thiruchittat Mahavishnu temple.", "h": "The Lord Imayavarappan stands in the Thiruchittat Mahavishnu temple; Chengannur is on the Pamba river."}, {"th": "", "a": "", "s": "Thiruppuliyur, Maayapiran temple.", "h": "The Lord Maayapiran is linked with Bhima, in Kuttanad."}, {"th": "Padmasani Nachiyar", "a": "", "s": "Aranmula Parthasarathy on the Pamba river.", "h": "Arjuna is said to have worshipped here. The Aranmula Uthrattathi Vallamkali boat race and the Aranmula mirror are associated with the town."}, {"th": "Kamalavalli Nachiyar", "a": "", "s": "Pambanaiyappan temple associated with Nakula.", "h": "Nakula of the Pandavas is traditionally linked to this temple; the Lord rests on Adisesha."}, {"th": "Hari Lakshmi", "a": "Nammazhwar", "s": "Sri Anantha Padmanabhaswamy temple.", "h": "The Lord reclines on Adisesha, seen through three doors. In 1750 Maharaja Marthanda Varma dedicated Travancore to the Lord as Padmanabha Dasa."}, {"th": "Maragathavalli", "a": "", "s": "Adikesava Perumal, a 22-foot reclining form.", "h": "Thiruvattar's Lord reclines in a long form; legend says he defeated the demon Kesi, hence Adikesava."}, {"th": "Kamalavalli", "a": "", "s": "Thiruppathisaram, Thiruvazhmarbhan.", "h": "The Lord Thirukuralappan is associated with Vamana at Thiruppathisaram, in Kanyakumari district."}, {"th": "Kurungudivalli Nachiyar", "a": "", "s": "Nambi who became a disciple of Ramanuja.", "h": "Tradition holds Azhagiya Nambi took the form of a Vaishnava disciple of Ramanuja. A noted Nambi shrine in the Mahendragiri foothills."}, {"th": "Varamangai (Vanamamalai Nachiyar)", "a": "", "s": "Vanamamalai Perumal, with the Thotadri Mutt.", "h": "The Lord (Thothadhrinatha) is the seat of the Vanamamalai Mutt; oil is offered to the Lord every day."}, {"th": "Vaikuntavalli, Bhoodevi", "a": "", "s": "Nava Tirupati: Kallapiran temple at Srivaikuntam.", "h": "First of the nine Nava Tirupati on the Thamirabarani, associated with the Sun. Kallapiran (the thief Lord) stands facing east."}, {"th": "Varagunavalli", "a": "", "s": "Nava Tirupati temple of Vijayasana.", "h": "One of the nine Nava Tirupati on the Thamirabarani, near Natham."}, {"th": "Maraimagal, Poomagal", "a": "", "s": "Nava Tirupati temple of Kaaichina Vendhan.", "h": "Another Nava Tirupati temple; the Lord reclines here."}, {"th": "Karunthadankanni", "a": "", "s": "Irattai Tirupati: twin Nava Tirupati temples.", "h": "Two temples, Devapiran and Aravindalochana, together form Thirutholaivillimangalam."}, {"th": "Kulandaivalli, Alarmelmangai", "a": "", "s": "Mayakoothan of Perunkulam, a Nava Tirupati.", "h": "One of the nine Nava Tirupati; the Lord Srinivasa is also known as Mayakoothan."}, {"th": "Koloor Valli", "a": "", "s": "Birthplace of Madhurakavi Azhwar.", "h": "Madhurakavi Azhwar was born at Thirukkolur. Kubera, who lost his nine treasures (nidhis), is said to have regained them here."}, {"th": "Kuzhaikathu Nachiyar, Thirupperai Nachiyar", "a": "", "s": "Nava Tirupati: Lord wears a makara earring.", "h": "The Lord Makara Nedunkuzhai Kathar wears a fish-shaped earring (makara kundalam) on one ear."}, {"th": "Adinatha Valli, Kurugur Valli", "a": "Nammazhwar", "s": "Nammazhwar's birthplace.", "h": "Nammazhwar was born at Alwarthirunagari and meditated under a tamarind tree (Thiruppuli). Nathamuni recovered the Divya Prabandham from here."}, {"th": "Andal", "a": "Periyazhwar, Andal", "s": "Andal's birthplace and the state emblem tower.", "h": "Periyazhwar found the infant Kodai (Andal) under a tulasi plant here. The 11-tier temple gopuram is the Tamil Nadu emblem."}, {"th": "Senkamalavalli", "a": "", "s": "Standing Narayana at Thiruthangal.", "h": "The Lord Ninra Narayana stands facing east; a sthalam associated with Periyazhwar."}, {"th": "Mathuravalli", "a": "Periyazhwar", "s": "Koodal Azhagar, who stands, sits and reclines in three tiers.", "h": "The Lord appears seated (Koodal Azhagar), reclining (Ranganatha) and standing (Surya Narayana) in different tiers. Periyazhwar sang here."}, {"th": "Sundaravalli", "a": "", "s": "Kallazhagar of Alagar Hills, Madurai.", "h": "On the Alagar hills; the Lord Kallazhagar rides to the Vaigai during Chithirai festival. The tank Noopura Ganga is associated with the hill."}, {"th": "Mohanavalli", "a": "", "s": "Kalamegha Perumal, near Madurai.", "h": "The Lord Kalamegha (dark cloud). Thirumohur has a prominent Chakrathazhwar shrine."}, {"th": "Sri Devi, Bhoodevi", "a": "", "s": "Where Ramanuja proclaimed the mantra to all.", "h": "Ramanuja climbed the temple tower and shared the Ashtakshara mantra with all after receiving it from Thirukoshtiyur Nambi."}, {"th": "Kalyanavalli (Padmasani)", "a": "", "s": "Darbhasayana Rama's Sethu temple.", "h": "Rama lay on darbha grass here seeking the sea god's help before crossing to Lanka. Lord Kalyana Jagannatha and Adi Jagannatha are venerated."}, {"th": "Ujjivana Thayar", "a": "", "s": "Rock-cut Sathyagirinatha temple.", "h": "The Lord Sathyagirinatha (Satyamurti) reclines in a rock-cut cave chamber at Thirumayam."}, {"th": "Sita", "a": "", "s": "Ayodhya, Rama's birthplace.", "h": "Birthplace of Rama, on the Sarayu. The Ram Mandir was consecrated in January 2024."}, {"th": "Hari Lakshmi", "a": "", "s": "Naimisharanya, where Suta narrated the Puranas.", "h": "The forest where sage Shaunaka held a 12-year yagna and Suta narrated the Puranas. The Chakra Tirtha is here."}, {"th": "Parimalavalli", "a": "", "s": "Narasimha Badri, winter seat of Badrinath.", "h": "At Joshimath, Adi Shankara founded the Jyotirmath. The Narasimha idol's arm is said to be thinning."}, {"th": "Pundarikavalli", "a": "", "s": "Devprayag, where the Ganga is formed.", "h": "At Devprayag the Alaknanda and Bhagirathi merge to form the Ganga. The Raghunath temple stands here."}, {"th": "Aravindavalli", "a": "", "s": "Badrinath in the Himalayas.", "h": "On the Alaknanda river, Nar and Narayana did penance here. The temple is open only half the year."}, {"th": "Sridevi Nachiyar", "a": "", "s": "Muktinath in Nepal, Saligrama stones.", "h": "At about 3,700 m in Mustang, the temple is sacred to Hindus and Buddhists, with 108 water spouts and a Saligrama-bearing Gandaki river."}, {"th": "Satyabhama", "a": "", "s": "Mathura, Krishna's birthplace.", "h": "Krishna was born in Mathura, in the prison of Kamsa. The Divya Desam recalls Krishna's lifting of Mount Govardhana."}, {"th": "Rukmini, Satyabhama", "a": "", "s": "Gokul, where Krishna grew up.", "h": "Krishna spent his childhood here with Nanda and Yashoda, across the Yamuna from Mathura."}, {"th": "Kalyana Nachiyar (Rukmini)", "a": "", "s": "Dwarka, Krishna's capital.", "h": "The Dwarkadhish temple, on the Gomti and the Arabian Sea, is dedicated to Krishna as king of Dwarka."}, {"th": "Amruthavalli", "a": "", "s": "Ahobilam, where Narasimha emerged from a pillar.", "h": "The Lord emerged from a pillar to destroy Hiranyakashipu and protect Prahlada. Nine Narasimha shrines surround the Ugra Sthambham."}, {"th": "Alarmelmangai (Padmavati)", "a": "", "s": "Tirumala, Seshachalam hills.", "h": "On the Seshachalam hills, Lord Venkateswara is among the most visited Hindu shrines. The Swami Pushkarini is sacred."}, {"th": "Mahalakshmi", "a": "", "s": "The celestial Milky Ocean.", "h": "The sea of milk where Vishnu rests on Adisesha. Associated with the churning of the ocean by devas and asuras."}, {"th": "Periya Piratti (Mahalakshmi)", "a": "", "s": "Vaikuntha, the supreme abode.", "h": "The eternal abode of Vishnu. Reached, in tradition, through devotion and surrender."}];
+T.forEach((t,i)=>{const x=INFO[i];if(!x)return;if(x.th)t.thayar=x.th;if(x.a)t.a=x.a;t.s=x.s;t.h=x.h;
+  const p=t.l.split(',').map(z=>z.trim());t.st=t.r==='Celestial'?'Celestial':p[p.length-1];
+  if(t.c){const fix={Thirukkadigai:[13.1167,79.4247],Thirumaliruncholai:[10.0833,78.2217],Thiruppullani:[9.2700,78.9300],Naimisaranyam:[27.3500,80.4800],Thiruanbil:[10.9000,78.8500]}[t.n];if(fix)t.c=fix;}
+});
+
 const ALVARS=[
 ["Nammalvar","8th–9th c. · Alwar Thirunagari","The greatest of the Alvars; his Tiruvaymoli is the crown of the Divya Prabandham, equated with the Vedas."],
 ["Thirumangai Azhwar","8th c. · Thirukuraiyalur","A chieftain turned saint; he hymned the most Divya Desams and built the prakara of Srirangam."],
@@ -588,13 +601,15 @@ const store={
   set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
 };
 let visits=store.get(K.v,{}), notes=store.get(K.n,{}), photos=store.get(K.p,{});
-let state=store.get(K.s,{view:'home',idx:0,q:'',region:'',sort:'no',vis:'all'});
+let state=store.get(K.s,{view:'home',idx:0,q:'',region:'',st:'',sort:'no',vis:'all'});
 if(!state.view)state.view='home';
 let cloudClient=null, cloudUser=null, cloudSyncTimer=null, cloudSyncInProgress=false, cloudSyncAgain=false, cloudRestoreMode=false, lastCloudSyncUser='';
 const CLOUD_PHOTO_BUCKET='divya-yatra-photos', CLOUD_BACKUP_BUCKET='divya-yatra-backups';
 const cloudConfig=window.DIVYA_SUPABASE_CONFIG||{};
 const cloudConfigured=()=>!!(window.supabase&&window.supabase.createClient&&cloudConfig.url&&cloudConfig.anonKey&&!/PASTE|YOUR_|REPLACE_ME/i.test(cloudConfig.url+cloudConfig.anonKey));
 const saveAll=()=>{store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);try{localStorage.setItem('dy_data_updated_at',String(Date.now()));}catch(_){}if(cloudUser&&!cloudRestoreMode)scheduleCloudSync();};
+const dirURL=t=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(t.n+' '+t.d+' temple, '+t.l)+'&travelmode=driving';
+const ytURL=(t,extra)=>'https://www.youtube.com/results?search_query='+encodeURIComponent(t.n+' '+t.d+' '+(t.l.split(',')[0])+' '+(extra||'temple'));
 const slug=i=>T[i].n.toLowerCase().replace(/[^a-z0-9]+/g,'-');
 const IMG_CACHE_KEY='dy_commons_image_cache';
 let commonsImages=store.get(IMG_CACHE_KEY,{}),pendingCommons=new Set();
@@ -632,12 +647,13 @@ function applyFilter(){
   LIST=T.map((t,i)=>i).filter(i=>{
     const t=T[i];
     if(state.region&&t.r!==state.region)return false;
+    if(state.st&&t.st!==state.st)return false;
     if(state.vis==='visited'&&!visits[t.n])return false;
     if(state.vis==='unvisited'&&visits[t.n])return false;
     if(state.vis==='noted'&&!(notes[t.n]||'').trim())return false;
     if(state.vis==='photos'&&!(photos[t.n]&&photos[t.n].src))return false;
     if(state.vis==='celestial'&&t.r!=='Celestial')return false;
-    if(q&&!(t.n+' '+t.d+' '+t.l+' '+t.r+' '+t.a).toLowerCase().includes(q))return false;
+    if(q&&!(t.n+' '+t.d+' '+t.l+' '+t.r+' '+t.a+' '+(t.st||'')).toLowerCase().includes(q))return false;
     return true;
   });
   if(state.sort==='az')LIST.sort((a,b)=>T[a].n.localeCompare(T[b].n));
@@ -678,8 +694,7 @@ function renderCard(listPos){
   const deck=$('#deck');
   if(!LIST.length){deck.innerHTML=`<div class="tcard" style="display:grid;place-items:center;text-align:center;padding:2rem"><div><h3 style="font-family:var(--disp);color:var(--gold2)">No temples match</h3><p style="color:var(--sand);margin-top:.5rem;font-size:.85rem">Try clearing search or filters.</p></div></div>`;$('#posNow').textContent=0;return;}
   const i=LIST[listPos], t=T[i];
-  const yt='https://www.youtube.com/embed/videoseries?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8';
-  deck.innerHTML=`
+    deck.innerHTML=`
   <article class="tcard ${visits[t.n]?'visited':''}" id="card">
     <span class="doneBadge">✓ DARSHAN DONE</span>
     <span class="cnum">${String(i+1).padStart(2,'0')}</span>
@@ -700,13 +715,13 @@ function renderCard(listPos){
         </div>
         <div class="sectionLabel">Location</div>
         <div class="detailFacts"><b>Place</b><span>${esc(t.l)}</span><b>Region</b><span>${esc(t.r)}</span><b>Perumal</b><span>${esc(t.d)}</span><b>Thayar</b><span>${esc(t.thayar||'Please verify with the temple / trusted sthala source')}</span></div>
-        <div class="sectionLabel">History</div><p class="hist">${esc(t.h)}</p>
+        <div class="sectionLabel">Summary</div><p class="sumLine">${esc(t.s||'')}</p><div class="sectionLabel">History</div><p class="hist">${esc(t.h)}</p>
         <div class="vrow">
           <label class="vlabel"><input type="checkbox" id="chk" ${visits[t.n]?'checked':''}><span class="vbox">✓</span><span class="vtxt">${visits[t.n]?'Visited':'Mark as visited'}</span></label>
           <button class="actBtn" id="bPhoto">📷 Add photo</button>
           <button class="actBtn" id="bDir">📍 Google Maps directions</button>
           <button class="actBtn" id="bWiki">📖 More</button>
-          <button class="actBtn" id="bVel">▶ YouTube playlist</button>
+          <button class="actBtn" id="bVel">▶ YouTube videos</button>
           <button class="actBtn red" id="bDel" style="display:none">🗑 Photo</button>
         </div>
         <div class="noteBox">
@@ -714,7 +729,7 @@ function renderCard(listPos){
           <textarea id="note" placeholder="Darshan timings, feelings, offering details…">${esc(notes[t.n]||'')}</textarea>
           <span class="saveHint" id="saveHint">✓ saved</span>
         </div>
-        <div class="ytWrap"><div class="ytLabel">🎧 Listen — hymns & temple history</div><iframe loading="lazy" src="${yt}" title="YouTube" allow="accelerometer; autoplay; encrypted-media" allowfullscreen></iframe></div>
+        <div class="ytWrap"><div class="ytLabel">▶ Watch on YouTube — search for this temple</div><div class="ytLinks"><a class="actBtn" target="_blank" rel="noopener" href="${esc(ytURL(t,'temple'))}">Temple videos ↗</a><a class="actBtn" target="_blank" rel="noopener" href="${esc(ytURL(t,'history sthala puranam'))}">History ↗</a><a class="actBtn" target="_blank" rel="noopener" href="${esc(ytURL(t,'darshan vlog'))}">Darshan vlogs ↗</a></div></div>
       </div>
     </div>
   </article>`;
@@ -769,8 +784,8 @@ function wireCard(i){
     };inp.click();
   };
   $('#bDel').onclick=()=>{if(!confirm('Remove all uploaded photos for '+t.n+'?'))return;delete photos[t.n];saveAll();refreshThumbs();mainImg.src=imgURL(i);mainImg.parentElement.classList.remove('noph');toast('Uploaded photos removed');};
-  $('#bDir').onclick=()=>{if(!t.c){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(`https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}&destination_place_id=&travelmode=driving`,'_blank','noopener');};
-  $('#bVel').onclick=()=>window.open('https://www.youtube.com/playlist?list=PLhrdHlkOIj-XbEfcuP21IV4zdoX8ACbC8','_blank','noopener');
+  $('#bDir').onclick=()=>{if(t.r==='Celestial'){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(dirURL(t),'_blank','noopener');};
+  $('#bVel').onclick=()=>window.open(ytURL(t),'_blank','noopener');
   $('#bWiki').onclick=()=>window.open(WIKI(t.n),'_blank');
   mainImg.onclick=()=>openLB(mainImg.src,t.n+' · '+t.l);
   /* swipe */
@@ -792,7 +807,7 @@ function slide(dir){
 function goToGlobal(gi){
   applyFilter();
   const p=LIST.indexOf(gi);
-  if(p<0){state.q='';state.region='';state.vis='all';applyFilter();}
+  if(p<0){state.q='';state.region='';state.st='';if($('#regionSel'))$('#regionSel').value='';state.vis='all';applyFilter();}
   state.idx=Math.max(0,LIST.indexOf(gi));saveAll();
   setView('cards');renderCard(state.idx);window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -833,7 +848,7 @@ function initMap(){
     const m=L.marker(t.c,{icon:makeIcon(t)}).addTo(map);
     m.bindPopup(`<div class="mkPop"><b>${esc(t.n)}</b><br><small>${esc(t.d)} · ${esc(t.l)}</small>
       <div class="popRow"><button class="bOpen" onclick="goToGlobal(${i})">Open card →</button>
-      <button class="bDir" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}','_blank')">Directions</button></div></div>`,{maxWidth:250});
+      <button class="bDir" onclick="window.open(dirURL(T[${i}]),'_blank')">Directions</button></div></div>`,{maxWidth:250});
     markers[i]=m;
   });
 }
@@ -848,7 +863,7 @@ function initHomeMap(){
  const el=document.getElementById('homeMap');if(!el)return;
  homeMap=L.map('homeMap',{scrollWheelZoom:false}).setView([17.8,78.5],5);
  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap contributors'}).addTo(homeMap);
- T.forEach((t,i)=>{if(!t.c)return;const visited=!!visits[t.n];const marker=L.circleMarker(t.c,{radius:visited?7:5,color:visited?'#237a52':'#c78b2b',fillColor:visited?'#3aa66f':'#efc56f',fillOpacity:.9,weight:2}).addTo(homeMap);marker.bindPopup(`<b>${esc(t.n)}</b><br>${esc(t.l)}<br><small>${visited?'✓ Visited':'○ Not visited'}</small><br><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${t.c[0]}%2C${t.c[1]}">Google Maps directions</a><br><button onclick="goToGlobal(${i})">Open place card</button>`);homeMarkers.push(marker);});
+ T.forEach((t,i)=>{if(!t.c)return;const visited=!!visits[t.n];const marker=L.circleMarker(t.c,{radius:visited?7:5,color:visited?'#237a52':'#c78b2b',fillColor:visited?'#3aa66f':'#efc56f',fillOpacity:.9,weight:2}).addTo(homeMap);marker.bindPopup(`<b>${esc(t.n)}</b><br>${esc(t.l)}<br><small>${visited?'✓ Visited':'○ Not visited'}</small><br><a target="_blank" rel="noopener" href="${esc(dirURL(t))}">Google Maps directions</a><br><button onclick="goToGlobal(${i})">Open place card</button>`);homeMarkers.push(marker);});
 }
 function renderHome(){
  const visited=T.filter(t=>visits[t.n]).length,unvisited=T.length-visited;
@@ -866,14 +881,16 @@ function setView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
   document.querySelectorAll('.vtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   document.querySelectorAll('.bottomTab').forEach(b=>b.classList.toggle('on',b.dataset.bottomView===v||(v==='map'&&b.dataset.bottomView==='map')));
-  if(v==='map'){setTimeout(()=>{if(!window.L){toast('The map needs an internet connection to load.');return;}initMap();if(map)map.invalidateSize();fitList(LIST);},60);}
+  document.body.dataset.view=v;
+  if(v==='youtube')initYT();
+  if(v==='map'){buildStateChips();setTimeout(()=>{if(!window.L){toast('The map needs an internet connection to load.');return;}initMap();refreshMapState();if(map)map.invalidateSize();},60);}
   if(v==='home'){setTimeout(()=>{initHomeMap();if(homeMap)homeMap.invalidateSize();renderHome();},60);}
   if(v==='gallery')renderGallery();
   if(v==='search')renderSuggestions();
 }
 function buildTabs(){
   const nav=document.createElement('nav');nav.className='menuNav';
-  [['home','⌂ Home'],['cards','🛕 Place Cards'],['gallery','☷ All 108'],['map','🗺 Explore'],['youtube','▶ YouTube Playlist'],['alvars','🌸 Alvars'],['search','⌕ Search'],['settings','⚙ Settings']].forEach(([v,lb])=>{
+  [['home','⌂ Home'],['cards','🛕 Place Cards'],['gallery','☷ All 108'],['map','🗺 Explore'],['youtube','▶ YouTube'],['alvars','🌸 Alvars'],['search','⌕ Search'],['settings','⚙ Settings']].forEach(([v,lb])=>{
     const b=document.createElement('button');b.className='tchip vtab';b.dataset.v=v;b.textContent=lb;b.onclick=()=>setView(v);nav.appendChild(b);
   });
   $('.controls').after(nav);
@@ -884,6 +901,15 @@ function buildTabs(){
   document.body.appendChild(bottom);
 }
 
+/* ================= YOUTUBE SEARCH + STATE FILTER ================= */
+function initYT(){const sel=$('#ytTemple');if(!sel||sel.options.length)return;sel.innerHTML=T.map((t,i)=>`<option value="${i}">${i+1}. ${esc(t.n)}</option>`).join('');
+  const draw=()=>{const t=T[+sel.value];$('#ytLinks').innerHTML=[['Temple videos','temple'],['History / Sthala puranam','history sthala puranam'],['Darshan vlogs','darshan vlog'],['Pasuram / Mangalasasanam','pasuram divya prabandham']].map(([l,x])=>`<a class="actBtn" target="_blank" rel="noopener" href="${esc(ytURL(t,x))}">${l} ↗</a>`).join('');};
+  sel.onchange=draw;draw();}
+function buildStateChips(){const box=$('#stateChips');if(!box)return;const counts={};T.forEach(t=>{if(t.st&&t.st!=='Celestial')counts[t.st]=(counts[t.st]||0)+1;});
+  const names=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+  box.innerHTML=`<button class="tchip ${state.st?'':'on'}" data-st="">All states</button>`+names.map(n=>`<button class="tchip ${state.st===n?'on':''}" data-st="${esc(n)}">${esc(n)} (${counts[n]})</button>`).join('');
+  box.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{state.st=b.dataset.st;state.idx=0;saveAll();applyFilter();buildStateChips();refreshMapState();renderCard(state.idx);if(state.view==='gallery')renderGallery();});}
+function refreshMapState(){if(!map)return;T.forEach((t,i)=>{const m=markers[i];if(!m)return;const show=!state.st||t.st===state.st;if(show&&!map.hasLayer(m))m.addTo(map);if(!show&&map.hasLayer(m))map.removeLayer(m);});fitList(LIST);}
 /* ================= LIGHTBOX ================= */
 function openLB(src,cap){$('#lbImg').src=src;$('#lbCap').textContent=cap;$('#lightbox').classList.add('on');}
 $('#lbClose').onclick=()=>$('#lightbox').classList.remove('on');
@@ -914,8 +940,8 @@ function openSearchResult(i){
 }
 
 /* ================= CONTROLS WIRING ================= */
-$('#regionSel').innerHTML='<option value="">All regions</option>'+[...new Set(T.map(t=>t.r))].map(r=>`<option>${r}</option>`).join('');
-$('#q').value=state.q;$('#regionSel').value='';state.region='';$('#sortSel').value=state.sort;
+$('#regionSel').innerHTML='<option value="">All states</option>'+[...new Set(T.map(t=>t.st))].map(r=>`<option>${r}</option>`).join('');
+$('#q').value=state.q;$('#regionSel').value=state.st||'';state.region='';$('#sortSel').value=state.sort;
 document.querySelectorAll('.tchip[data-v]').forEach(c=>{
   if(c.dataset.v===state.vis)c.classList.add('on');
   c.onclick=()=>{
@@ -927,7 +953,7 @@ document.querySelectorAll('.tchip[data-v]').forEach(c=>{
   };
 });
 $('#q').addEventListener('input',e=>{state.q=e.target.value;state.idx=0;state.region='';saveAll();applyFilter();renderCard(state.idx);renderSuggestions();});
-$('#regionSel').onchange=()=>{};
+$('#regionSel').onchange=e=>{state.st=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);if(state.view==='gallery')renderGallery();};
 $('#sortSel').onchange=e=>{state.sort=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);};
 $('#btnPrev').onclick=()=>slide(-1);
 $('#btnNext').onclick=()=>slide(1);
