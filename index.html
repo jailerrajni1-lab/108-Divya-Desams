@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b0a06">
+<meta name="description" content="Divya Kshetra Yatra — track all 108 Divya Desams of Lord Vishnu. Visits, notes, photos, maps & Divya Prabandham hymns.">
+<title>Divya Kshetra Yatra — 108 Divya Desam Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --ink:#1b0a06; --ink2:#2a1109; --ink3:#3a1a0d;
+  --cream:#f7ecd9; --paper:#fdf6e8; --sand:#e9d7b6;
+  --gold:#d9a441; --gold2:#f0c56b; --gold3:#8a5a16;
+  --temple:#b3351f; --temple2:#8f2414; --holy:#c75c2e;
+  --leaf:#2e6b4f;
+  --disp:"Cormorant Garamond",serif; --body:"Manrope",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); color:var(--cream); background:var(--ink);
+  background-image:
+    radial-gradient(1100px 500px at 85% -8%, rgba(217,164,65,.16), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(179,53,31,.22), transparent 60%),
+    radial-gradient(rgba(240,197,107,.05) 1px, transparent 1.4px);
+  background-size:auto,auto,26px 26px;
+  min-height:100vh;
+}
+::selection{background:var(--gold);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit}
+
+/* ---------- floating embers ---------- */
+.ember{position:fixed;bottom:-12px;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle,#ffd98a,#d9a441 60%,transparent);
+  opacity:.7;pointer-events:none;z-index:1;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-108vh) translateX(var(--dx,20px));opacity:0}}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg,#150704 0%,rgba(21,7,4,.92) 100%);
+  border-bottom:1px solid rgba(217,164,65,.28);backdrop-filter:blur(8px)}
+.hwrap{max-width:1180px;margin:0 auto;padding:.8rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.kolam{width:38px;height:38px;flex:none;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand{line-height:1}
+.brand h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:.02em;color:var(--gold2)}
+.brand small{display:block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--sand);opacity:.8;margin-top:.15rem}
+.hspace{flex:1}
+.yatraPill{display:flex;align-items:center;gap:.45rem;background:rgba(217,164,65,.12);
+  border:1px solid rgba(217,164,65,.4);border-radius:999px;padding:.35rem .8rem;font-size:.78rem;color:var(--gold2)}
+.installBtn{background:var(--gold);color:var(--ink);border:none;border-radius:999px;padding:.5rem 1rem;
+  font-weight:700;font-size:.8rem;display:none}
+.installBtn:hover{background:var(--gold2)}
+
+/* ---------- progress band ---------- */
+.band{max-width:1180px;margin:1.2rem auto 0;padding:0 1rem}
+.bandCard{background:linear-gradient(120deg,#200c07,#2f1207 55%,#200c07);border:1px solid rgba(217,164,65,.3);
+  border-radius:14px;padding:1.1rem 1.3rem;position:relative;overflow:hidden}
+.bandCard::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(420px 130px at 90% 0%,rgba(240,197,107,.14),transparent);pointer-events:none}
+.bandRow{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.ring{position:relative;width:92px;height:92px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:8}
+.ring .bg{stroke:rgba(247,236,217,.14)}
+.ring .fg{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--disp);font-size:1.5rem;color:var(--gold2)}
+.bandTxt h2{font-family:var(--disp);font-size:clamp(1.3rem,3vw,1.9rem);color:var(--cream)}
+.bandTxt p{font-size:.85rem;color:var(--sand);opacity:.85;margin-top:.2rem;max-width:52ch}
+.pctChips{display:flex;gap:.5rem;flex-wrap:wrap;margin-left:auto}
+.chip{font-size:.72rem;border:1px solid rgba(217,164,65,.35);border-radius:999px;padding:.3rem .65rem;color:var(--sand)}
+.chip b{color:var(--gold2)}
+.bar{height:8px;background:rgba(247,236,217,.12);border-radius:99px;margin-top:.9rem;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--holy),var(--gold));border-radius:99px;
+  transition:width 1s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- controls ---------- */
+.controls{max-width:1180px;margin:.9rem auto 0;padding:0 1rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:210px;position:relative}
+.search input{width:100%;background:rgba(247,236,217,.07);border:1px solid rgba(217,164,65,.35);
+  color:var(--cream);border-radius:999px;padding:.62rem 1rem .62rem 2.4rem;font-size:.9rem;outline:none;transition:.25s}
+.search input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,164,65,.18)}
+.search::before{content:"⌕";position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--gold);font-size:1.05rem}
+select.sel{background:rgba(247,236,217,.07);border:1px solid rgba(217,164,65,.35);color:var(--cream);
+  border-radius:999px;padding:.6rem .9rem;font-size:.82rem;outline:none}
+select.sel option{background:var(--ink);color:var(--cream)}
+.chips{display:flex;gap:.45rem;flex-wrap:wrap}
+.tchip{border:1px solid rgba(217,164,65,.35);background:transparent;color:var(--sand);border-radius:999px;
+  padding:.45rem .85rem;font-size:.78rem;transition:.2s}
+.tchip:hover{border-color:var(--gold);color:var(--gold2)}
+.tchip.on{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700}
+.tchip.goldFlash{animation:pulseGold .8s ease}
+@keyframes pulseGold{0%{box-shadow:0 0 0 0 rgba(217,164,65,.7)}100%{box-shadow:0 0 0 14px rgba(217,164,65,0)}}
+
+/* ---------- views ---------- */
+main{max-width:1180px;margin:0 auto;padding:0 1rem 5rem}
+.view{display:none}
+.view.active{display:block;animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- card stage ---------- */
+.stage{position:relative;margin-top:1.1rem}
+.stageHead{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.7rem}
+.posTag{font-family:var(--disp);font-size:1.15rem;color:var(--gold2)}
+.posTag b{font-size:1.6rem}
+.regionTag{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--holy);border:1px solid rgba(199,92,46,.5);
+  border-radius:999px;padding:.28rem .7rem}
+.stageNav{margin-left:auto;display:flex;gap:.5rem}
+.navBtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(217,164,65,.45);background:rgba(217,164,65,.08);
+  color:var(--gold2);font-size:1.2rem;transition:.2s}
+.navBtn:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px)}
+.deck{position:relative;height:600px;touch-action:pan-y;perspective:1400px}
+@media(max-width:720px){.deck{height:auto;min-height:560px}}
+.tcard{position:absolute;inset:0;background:linear-gradient(160deg,#23100a,#2e140b);
+  border:1px solid rgba(217,164,65,.32);border-radius:18px;overflow:hidden;
+  transition:transform .45s cubic-bezier(.2,.8,.25,1),opacity .45s;will-change:transform}
+.tcard.dragging{transition:none}
+.tcard .cnum{position:absolute;top:.9rem;right:.95rem;z-index:5;font-family:var(--disp);font-weight:700;
+  font-size:1.9rem;color:rgba(247,236,217,.28);pointer-events:none}
+.tcard .doneBadge{position:absolute;top:.95rem;right:3.4rem;z-index:6;background:var(--leaf);color:#eafaf0;
+  font-size:.62rem;font-weight:800;letter-spacing:.14em;padding:.3rem .6rem;border-radius:999px;display:none;
+  transform:rotate(6deg)}
+.tcard.visited .doneBadge{display:block}
+.cgrid{display:grid;grid-template-columns:44% 56%;height:100%}
+@media(max-width:720px){.cgrid{grid-template-columns:1fr;height:auto}}
+.cphoto{position:relative;background:#160a06;min-height:250px;overflow:hidden}
+.cphoto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s ease}
+.tcard:hover .cphoto img{transform:scale(1.07)}
+.cphoto .phFb{position:absolute;inset:0;display:none;place-items:center;background:
+  repeating-linear-gradient(45deg,#22100a 0 14px,#28130b 14px 28px)}
+.cphoto .phFb span{font-family:var(--disp);font-size:5rem;color:rgba(240,197,107,.35)}
+.cphoto.noph img{display:none}.cphoto.noph .phFb{display:grid}
+.thumbStrip{position:absolute;left:.6rem;bottom:.6rem;display:flex;gap:.35rem;z-index:4}
+.thumbStrip img{width:44px;height:44px;object-fit:cover;border-radius:8px;border:2px solid rgba(247,236,217,.35);
+  cursor:pointer;transition:.2s;opacity:.85}
+.thumbStrip img:hover{transform:translateY(-3px);border-color:var(--gold);opacity:1}
+.phCount{position:absolute;left:.6rem;top:.6rem;z-index:4;background:rgba(20,8,4,.72);border:1px solid rgba(217,164,65,.4);
+  color:var(--gold2);font-size:.68rem;border-radius:999px;padding:.22rem .6rem}
+.cbody{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.75rem;overflow-y:auto}
+.cbody h3{font-family:var(--disp);font-size:clamp(1.5rem,3vw,2.15rem);line-height:1.05;color:var(--gold2)}
+.cbody .loc{font-size:.85rem;color:var(--sand);font-weight:600}
+.meta{display:flex;gap:.5rem;flex-wrap:wrap}
+.meta span{font-size:.7rem;background:rgba(217,164,65,.1);border:1px solid rgba(217,164,65,.3);
+  border-radius:999px;padding:.25rem .65rem;color:var(--sand)}
+.meta .alvar{color:#f6d7a0;border-color:rgba(199,92,46,.55)}
+.hist{font-size:.84rem;line-height:1.65;color:#efe0c6;opacity:.94}
+.vrow{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:.2rem}
+.vlabel{display:flex;align-items:center;gap:.6rem;cursor:pointer;user-select:none;
+  background:rgba(247,236,217,.06);border:1px solid rgba(217,164,65,.35);border-radius:999px;padding:.42rem .95rem;
+  font-size:.82rem;font-weight:700;transition:.25s}
+.vlabel input{display:none}
+.vbox{width:20px;height:20px;border:2px solid var(--gold);border-radius:5px;display:grid;place-items:center;
+  font-size:.75rem;color:transparent;transition:.2s;flex:none}
+.vlabel input:checked ~ .vbox{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.vlabel input:checked ~ .vtxt{color:#bfe8cf}
+.actBtn{border:1px solid rgba(217,164,65,.4);background:transparent;color:var(--gold2);border-radius:999px;
+  padding:.42rem .85rem;font-size:.76rem;font-weight:700;transition:.2s}
+.actBtn:hover{background:rgba(217,164,65,.15);transform:translateY(-1px)}
+.actBtn.red{border-color:rgba(179,53,31,.6);color:#f0a08e}
+.noteBox textarea{width:100%;min-height:70px;background:rgba(20,8,4,.5);border:1px solid rgba(217,164,65,.3);
+  border-radius:10px;color:var(--cream);padding:.6rem .75rem;font-size:.82rem;resize:vertical;outline:none;transition:.2s}
+.noteBox textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,164,65,.15)}
+.noteBox label{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--holy);font-weight:800}
+.saveHint{font-size:.66rem;color:var(--gold);opacity:0;transition:.4s}
+.saveHint.on{opacity:.9}
+.ytWrap iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
+.ytLabel{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--holy);font-weight:800;margin-bottom:.3rem}
+.swipeHint{text-align:center;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sand);
+  opacity:.55;margin-top:.7rem;animation:hintSway 2.6s ease-in-out infinite}
+@keyframes hintSway{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}
+
+/* ---------- gallery ---------- */
+.gCount{margin:1rem 0 .7rem;font-size:.8rem;color:var(--sand)}
+.gGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.9rem}
+.gItem{background:linear-gradient(160deg,#23100a,#2c130b);border:1px solid rgba(217,164,65,.28);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:.25s;position:relative}
+.gItem:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+.gItem .gTop{height:86px;background:
+  repeating-linear-gradient(45deg,#22100a 0 12px,#28130b 12px 24px);display:grid;place-items:center;position:relative}
+.gItem img.gTop{object-fit:cover}
+.gItem .gTop span{font-family:var(--disp);font-size:2.2rem;color:rgba(240,197,107,.35)}
+.gItem .gTxt{padding:.7rem .85rem .85rem}
+.gItem .gTxt b{font-family:var(--disp);font-size:1.05rem;color:var(--gold2);display:block}
+.gItem .gTxt small{font-size:.7rem;color:var(--sand)}
+.gItem .gBadge{position:absolute;top:.5rem;left:.5rem;background:var(--leaf);color:#eafaf0;font-size:.58rem;
+  font-weight:800;letter-spacing:.12em;padding:.22rem .5rem;border-radius:999px;display:none}
+.gItem.visited .gBadge{display:block}
+.gItem .gNo{position:absolute;top:.5rem;right:.55rem;font-family:var(--disp);color:rgba(247,236,217,.5);font-size:.85rem}
+
+/* ---------- map ---------- */
+.mapBar{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:1rem 0 .7rem}
+.mapHint{font-size:.75rem;color:var(--sand);opacity:.8}
+#map{height:66vh;min-height:430px;border-radius:16px;border:1px solid rgba(217,164,65,.35);z-index:1}
+.leaflet-container{background:#14202a;font-family:var(--body)}
+.mk{position:relative;display:block;width:26px;height:26px}
+.mk i{position:absolute;left:50%;top:3px;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;
+  background:#b3351f;border:2px solid #ffd98a;box-shadow:0 0 0 2px rgba(20,8,4,.55)}
+.mk.vis i{background:var(--leaf)}
+.mk.sel i{width:20px;height:20px;top:1px;box-shadow:0 0 0 4px rgba(217,164,65,.45)}
+.mk::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #ffd98a}
+.mkPop b{font-family:var(--disp);font-size:1rem;color:#8f2414}
+.mkPop small{color:#5c4326}
+.mkPop .popRow{display:flex;gap:.4rem;margin-top:.45rem}
+.mkPop button{border:none;border-radius:8px;padding:.35rem .6rem;font-size:.72rem;font-weight:700}
+.mkPop .bOpen{background:#b3351f;color:#fff}.mkPop .bDir{background:#d9a441;color:#1b0a06}
+.leaflet-popup-content-wrapper{background:var(--paper);color:#2a1109;border-radius:12px}
+.leaflet-popup-tip{background:var(--paper)}
+
+/* ---------- alvars ---------- */
+.almGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;margin-top:1rem}
+.almCard{background:linear-gradient(150deg,#23100a,#2c130b);border:1px solid rgba(217,164,65,.28);border-radius:14px;
+  padding:1rem 1.1rem;transition:.25s}
+.almCard:hover{transform:translateY(-3px);border-color:var(--gold)}
+.almCard h4{font-family:var(--disp);font-size:1.3rem;color:var(--gold2)}
+.almCard .almE{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--holy);margin:.15rem 0 .5rem}
+.almCard p{font-size:.8rem;line-height:1.6;color:#efe0c6;opacity:.9}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:120;background:rgba(12,4,2,.94);display:none;place-items:center;padding:1rem}
+.lb.on{display:grid;animation:fadeUp .3s ease}
+.lb img{max-width:96vw;max-height:88vh;border-radius:10px;border:1px solid rgba(217,164,65,.4)}
+.lb .lbCap{position:absolute;bottom:1.4rem;left:0;right:0;text-align:center;color:var(--sand);font-size:.85rem}
+.lb button{position:absolute;top:1rem;right:1rem;background:var(--gold);border:none;color:var(--ink);
+  width:40px;height:40px;border-radius:50%;font-size:1.1rem;font-weight:800}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(80px);z-index:140;
+  background:var(--gold);color:var(--ink);font-weight:700;font-size:.82rem;padding:.6rem 1.1rem;border-radius:999px;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.6);transition:.35s cubic-bezier(.2,.8,.25,1);opacity:0}
+#toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+footer{border-top:1px solid rgba(217,164,65,.25);padding:1.4rem 1rem 2.2rem;text-align:center}
+footer p{font-size:.72rem;color:var(--sand);opacity:.75;max-width:80ch;margin:.3rem auto;line-height:1.7}
+footer .fl{font-family:var(--disp);color:var(--gold);font-size:1rem}
+</style>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231b0a06'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23d9a441' font-family='serif'%3E%E0%AE%93%E0%AE%AE%E0%AF%8D%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="embers"></div>
+
+<header>
+  <div class="hwrap">
+    <svg class="kolam" viewBox="0 0 40 40" fill="none" stroke="#d9a441" stroke-width="1.4">
+      <circle cx="20" cy="20" r="16"/><circle cx="20" cy="20" r="9"/>
+      <path d="M20 4v32M4 20h32M8.7 8.7l22.6 22.6M31.3 8.7L8.7 31.3"/>
+      <circle cx="20" cy="20" r="3" fill="#d9a441"/>
+    </svg>
+    <div class="brand">
+      <h1>Divya Kshetra Yatra</h1>
+      <small>108 Divya Desams · Divya Prabandham</small>
+    </div>
+    <div class="hspace"></div>
+    <div class="yatraPill">🌿 <span id="todayYatra"></span></div>
+    <button class="installBtn" id="installBtn">⬇ Install App</button>
+  </div>
+</header>
+
+<section class="band">
+  <div class="bandCard">
+    <div class="bandRow">
+      <div class="ring">
+        <svg width="92" height="92"><circle class="bg" cx="46" cy="46" r="40"/><circle class="fg" id="ringFg" cx="46" cy="46" r="40"/></svg>
+        <b id="ringNum">0</b>
+      </div>
+      <div class="bandTxt">
+        <h2 id="progTitle">Your yatra awaits</h2>
+        <p id="progSub">Tick temples as you visit them — every mark, note and photo is saved on this device automatically.</p>
+      </div>
+      <div class="pctChips" id="pctChips"></div>
+    </div>
+    <div class="bar"><i id="progBar"></i></div>
+  </div>
+</section>
+
+<nav class="controls">
+  <div class="search"><input id="q" type="search" placeholder="Search temple, deity, city, Alvar…" autocomplete="off"></div>
+  <select class="sel" id="regionSel">
+    <option value="">All regions</option>
+  </select>
+  <select class="sel" id="sortSel">
+    <option value="no">Order: Traditional #</option>
+    <option value="az">A to Z</option>
+    <option value="unv">Unvisited first</option>
+    <option value="vis">Visited first</option>
+  </select>
+  <div class="chips">
+    <button class="tchip on" data-v="all">All</button>
+    <button class="tchip" data-v="unvisited">🛕 To Visit</button>
+    <button class="tchip" data-v="visited">✅ Visited</button>
+    <button class="tchip" data-v="noted">📝 With Notes</button>
+    <button class="tchip" data-v="photos">📷 With Photos</button>
+    <button class="tchip" data-v="celestial">✨ Celestial</button>
+    <button class="tchip goldFlash" data-v="gold" id="goldBtn">🏆 Golden Milestones</button>
+  </div>
+</nav>
+
+<main>
+  <!-- CARDS VIEW -->
+  <section class="view active" id="view-cards">
+    <div class="stage">
+      <div class="stageHead">
+        <span class="posTag"><b id="posNow">1</b> / <span id="posTotal">108</span></span>
+        <span class="regionTag" id="posRegion">—</span>
+        <div class="stageNav">
+          <button class="navBtn" id="btnPrev" title="Previous">←</button>
+          <button class="navBtn" id="btnNext" title="Next">→</button>
+        </div>
+      </div>
+      <div class="deck" id="deck"></div>
+      <p class="swipeHint">‹ swipe the cards · drag left / right ›</p>
+    </div>
+  </section>
+
+  <!-- GALLERY VIEW -->
+  <section class="view" id="view-gallery">
+    <p class="gCount" id="gCount"></p>
+    <div class="gGrid" id="gGrid"></div>
+  </section>
+
+  <!-- MAP VIEW -->
+  <section class="view" id="view-map">
+    <div class="mapBar">
+      <span class="mapHint">Tap any marker to open its temple card. Green = visited.</span>
+      <button class="actBtn" id="fitAll">Show all 108</button>
+      <button class="actBtn" id="fitSel">Show current selection</button>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <!-- ALVARS VIEW -->
+  <section class="view" id="view-alvars">
+    <div class="almGrid" id="almGrid"></div>
+  </section>
+</main>
+
+<div class="lb" id="lightbox"><button id="lbClose">✕</button><img id="lbImg" alt=""><p class="lbCap" id="lbCap"></p></div>
+<div id="toast"></div>
+
+<footer>
+  <p class="fl">ॐ नमो नारायणाय · ஓம் நமோ நாராயணாய</p>
+  <p>The 108 Divya Desams are the Vishnu temples glorified in the Nalayira Divya Prabandham of the twelve Alvars. Data compiled from traditional Divya Desam lists — histories are brief summaries; map pins are approximate town-level locations, tap “Directions” for live navigation. Your visits, notes and photos stay on this device (browser storage) — use Export/Import on each card to back up.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ================= DATA — 108 DIVYA DESAMS =================
+   n: divya desam name | d: deity | l: place | r: region | a: Alvar(s)
+   h: history | y: pasuram keyword (YouTube) | c: [lat,lng] */
+const WIKI=n=>`https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(n)}`;
+const T=[
+{n:"Thiruvarangam",d:"Ranganathar",l:"Srirangam, Tiruchirappalli, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvarangam Divya Desam temple",c:[10.8627,78.6870],h:"Thiruvarangam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkoli",d:"Azhagiya Manavala Perumal",l:"Uraiyur, Tiruchirappalli, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkoli Divya Desam temple",c:[10.8150,78.6850],h:"Thirukkoli is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkarambanoor",d:"Purushottama Perumal",l:"Uthamarkoil, Tiruchirappalli, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkarambanoor Divya Desam temple",c:[10.8650,78.6700],h:"Thirukkarambanoor is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvellarai",d:"Pundarikaksha Perumal",l:"Thiruvellarai, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvellarai Divya Desam temple",c:[10.9600,78.6600],h:"Thiruvellarai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruanbil",d:"Vadivazhagiya Nambi",l:"Anbil, Tiruchirappalli, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruanbil Divya Desam temple",c:[10.8800,78.9200],h:"Thiruanbil is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruappakkudathaan",d:"Appakkudathaan Perumal",l:"Koviladi, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruappakkudathaan Divya Desam temple",c:[10.8500,78.5700],h:"Thiruappakkudathaan is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkandiyur",d:"Hara Saabha Vimochana Perumal",l:"Kandiyur, Thanjavur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkandiyur Divya Desam temple",c:[10.8700,79.1200],h:"Thirukkandiyur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkoodalur",d:"Jagathrakshaga Perumal",l:"Aduthurai, Thanjavur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkoodalur Divya Desam temple",c:[10.9000,79.2500],h:"Thirukkoodalur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkavithalam",d:"Gajendra Varadha Perumal",l:"Kabisthalam, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkavithalam Divya Desam temple",c:[10.9000,79.2200],h:"Thirukkavithalam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppullamboothangudi",d:"Rama Perumal",l:"Pullamboothangudi, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruppullamboothangudi Divya Desam temple",c:[10.9300,79.3000],h:"Thiruppullamboothangudi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruaadhanur",d:"Andalukkum Aiyyan Perumal",l:"Adanur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruaadhanur Divya Desam temple",c:[10.9500,79.3500],h:"Thiruaadhanur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkudanthai",d:"Aravamudha Perumal",l:"Kumbakonam, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkudanthai Divya Desam temple",c:[10.9600,79.3800],h:"Thirukkudanthai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvinnagar",d:"Uppiliappan Perumal",l:"Thirunageswaram, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvinnagar Divya Desam temple",c:[10.9900,79.4000],h:"Thiruvinnagar is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirunaraiyur",d:"Srinivasa Perumal",l:"Nachiyar Kovil, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirunaraiyur Divya Desam temple",c:[10.9100,79.4300],h:"Thirunaraiyur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirucherai",d:"Saranatha Perumal",l:"Tirucherai, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirucherai Divya Desam temple",c:[10.8700,79.4600],h:"Thirucherai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkannamangai",d:"Bhaktavatsala Perumal",l:"Thirukkannamangai, Thiruvarur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkannamangai Divya Desam temple",c:[10.8100,79.6100],h:"Thirukkannamangai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkannapuram",d:"Sowriraja Perumal",l:"Thirukkannapuram, Nagapattinam, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkannapuram Divya Desam temple",c:[10.7800,79.7000],h:"Thirukkannapuram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkannangudi",d:"Lokhanatha Perumal",l:"Thirukkannangudi, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkannangudi Divya Desam temple",c:[10.7900,79.7300],h:"Thirukkannangudi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirunagai",d:"Soundararaja Perumal",l:"Nagapattinam, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirunagai Divya Desam temple",c:[10.7650,79.8400],h:"Thirunagai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthanjai Mamanikoil",d:"Neelamegha Perumal",l:"Thanjavur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruthanjai Mamanikoil Divya Desam temple",c:[10.7900,79.1400],h:"Thiruthanjai Mamanikoil is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirunandhipuravinnagaram",d:"Jagannatha Perumal",l:"Nathan Kovil, Kumbakonam, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirunandhipuravinnagaram Divya Desam temple",c:[10.9600,79.4200],h:"Thirunandhipuravinnagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvelliyangudi",d:"Kolavilli Rama Perumal",l:"Thiruvelliyangudi, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvelliyangudi Divya Desam temple",c:[11.0300,79.4700],h:"Thiruvelliyangudi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvazhundur",d:"Devadiraja Perumal",l:"Therazhundur, Mayiladuthurai, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvazhundur Divya Desam temple",c:[11.0200,79.5300],h:"Thiruvazhundur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruchirupuliyur",d:"Krupasamudra Perumal",l:"Thiruchirupuliyur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruchirupuliyur Divya Desam temple",c:[10.9800,79.6500],h:"Thiruchirupuliyur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthalaichanga Nanmadiyam",d:"Naanmadiya Perumal",l:"Thalachangadu, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruthalaichanga Nanmadiyam Divya Desam temple",c:[11.1200,79.7500],h:"Thiruthalaichanga Nanmadiyam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruindalur",d:"Parimala Ranganatha Perumal",l:"Indalur, Mayiladuthurai, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruindalur Divya Desam temple",c:[11.1000,79.6500],h:"Thiruindalur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkavalambadi",d:"Gopala Krishna Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukkavalambadi Divya Desam temple",c:[11.2000,79.7300],h:"Thirukkavalambadi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukazhicheerama Vinnagaram",d:"Trivikrama Perumal",l:"Sirkazhi, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirukazhicheerama Vinnagaram Divya Desam temple",c:[11.2400,79.7400],h:"Thirukazhicheerama Vinnagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruarimeya Vinnagaram",d:"Kudamudakoothan Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruarimeya Vinnagaram Divya Desam temple",c:[11.2005,79.7350],h:"Thiruarimeya Vinnagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvanpurushothamam",d:"Purushottama Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvanpurushothamam Divya Desam temple",c:[11.2010,79.7380],h:"Thiruvanpurushothamam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirusemponseikoil",d:"Hemarangar Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirusemponseikoil Divya Desam temple",c:[11.2030,79.7400],h:"Thirusemponseikoil is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumanimadakoil",d:"Nara Narayana Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirumanimadakoil Divya Desam temple",c:[11.2050,79.7420],h:"Thirumanimadakoil is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvaikunta Vinnagaram",d:"Vaikuntanatha Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvaikunta Vinnagaram Divya Desam temple",c:[11.2070,79.7440],h:"Thiruvaikunta Vinnagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvali-Thirunagari",d:"Kedarapathi Perumal",l:"Thiruvali, Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvali-Thirunagari Divya Desam temple",c:[11.1700,79.7700],h:"Thiruvali-Thirunagari is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthevanarthogai",d:"Devanayaka Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruthevanarthogai Divya Desam temple",c:[11.2090,79.7460],h:"Thiruthevanarthogai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthetriambalam",d:"Lakshmi Ranganatha Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruthetriambalam Divya Desam temple",c:[11.2110,79.7480],h:"Thiruthetriambalam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumanikoodam",d:"Varadharaja Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thirumanikoodam Divya Desam temple",c:[11.2130,79.7500],h:"Thirumanikoodam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvellakulam",d:"Annan Perumal",l:"Thirunangur, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruvellakulam Divya Desam temple",c:[11.2150,79.7520],h:"Thiruvellakulam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruparthanpalli",d:"Parthasarathy Perumal",l:"Parthanpalli, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruparthanpalli Divya Desam temple",c:[11.2200,79.7600],h:"Thiruparthanpalli is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruchitrakoodam",d:"Govindaraja Perumal",l:"Chidambaram, Tamil Nadu",r:"Chola Nadu",a:"Azhwars",y:"Thiruchitrakoodam Divya Desam temple",c:[11.3990,79.6930],h:"Thiruchitrakoodam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvahindrapuram",d:"Devanatha Perumal",l:"Thiruvanthipuram, Cuddalore, Tamil Nadu",r:"Nadu Nadu",a:"Azhwars",y:"Thiruvahindrapuram Divya Desam temple",c:[11.7350,79.7400],h:"Thiruvahindrapuram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkoyilur",d:"Trivikrama Perumal",l:"Tirukkoyilur, Tamil Nadu",r:"Nadu Nadu",a:"Azhwars",y:"Thirukkoyilur Divya Desam temple",c:[11.9670,79.2080],h:"Thirukkoyilur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkachi Atthigiri",d:"Varadharaja Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkachi Atthigiri Divya Desam temple",c:[12.8340,79.7240],h:"Thirukkachi Atthigiri is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Ashtabujagaram",d:"Ashtabhuja Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Ashtabujagaram Divya Desam temple",c:[12.8350,79.7040],h:"Ashtabujagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthanka",d:"Deepaprakasa Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruthanka Divya Desam temple",c:[12.8360,79.6955],h:"Thiruthanka is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvelukkai",d:"Yoga Narasimha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruvelukkai Divya Desam temple",c:[12.8405,79.7020],h:"Thiruvelukkai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruneeragam",d:"Jagadeesha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruneeragam Divya Desam temple",c:[12.8335,79.6975],h:"Thiruneeragam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppadagam",d:"Pandavadootha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruppadagam Divya Desam temple",c:[12.8275,79.6980],h:"Thiruppadagam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Nilathingal Thundam",d:"Chandrasooda Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Nilathingal Thundam Divya Desam temple",c:[12.8385,79.6985],h:"Nilathingal Thundam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruooragam",d:"Ulagalantha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruooragam Divya Desam temple",c:[12.8355,79.7000],h:"Thiruooragam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvekka",d:"Yathothkari Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruvekka Divya Desam temple",c:[12.8230,79.6930],h:"Thiruvekka is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkaragam",d:"Karunagara Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkaragam Divya Desam temple",c:[12.8328,79.6960],h:"Thirukkaragam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkarvaanam",d:"Neelamega Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkarvaanam Divya Desam temple",c:[12.8322,79.6948],h:"Thirukkarvaanam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkalvanur",d:"Adi Varaha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkalvanur Divya Desam temple",c:[12.8380,79.6980],h:"Thirukkalvanur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppavalavannam",d:"Pavalavarna Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruppavalavannam Divya Desam temple",c:[12.8330,79.7050],h:"Thiruppavalavannam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiru Parameswara Vinnagaram",d:"Vaikundanatha Perumal",l:"Kanchipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiru Parameswara Vinnagaram Divya Desam temple",c:[12.8352,79.7000],h:"Thiru Parameswara Vinnagaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruputkuzhi",d:"Vijayaraghava Perumal",l:"Thiruputkuzhi, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruputkuzhi Divya Desam temple",c:[12.8430,79.6035],h:"Thiruputkuzhi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirunindravur",d:"Bhaktavatsala Perumal",l:"Thirunindravur, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirunindravur Divya Desam temple",c:[13.1190,80.0300],h:"Thirunindravur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvallur",d:"Veeraraghava Perumal",l:"Thiruvallur, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruvallur Divya Desam temple",c:[13.1430,79.9100],h:"Thiruvallur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvallikeni",d:"Venkatakrishna Perumal",l:"Triplicane, Chennai, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruvallikeni Divya Desam temple",c:[13.0536,80.2806],h:"Thiruvallikeni is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruneermalai",d:"Neervanna Perumal",l:"Thiruneermalai, Chennai, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruneermalai Divya Desam temple",c:[12.9636,80.1230],h:"Thiruneermalai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvidanthai",d:"Nithya Kalyana Perumal",l:"Thiruvidanthai, Chennai region, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thiruvidanthai Divya Desam temple",c:[12.7300,80.2300],h:"Thiruvidanthai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkadalmallai",d:"Sthalasayana Perumal",l:"Mahabalipuram, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkadalmallai Divya Desam temple",c:[12.6214,80.1987],h:"Thirukkadalmallai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkadigai",d:"Yoga Narasimha Perumal",l:"Sholinghur, Tamil Nadu",r:"Thondai Nadu",a:"Azhwars",y:"Thirukkadigai Divya Desam temple",c:[12.9189,79.4257],h:"Thirukkadigai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirunavai",d:"Navamukunda Perumal",l:"Tirunavaya, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thirunavai Divya Desam temple",c:[10.8500,75.9800],h:"Thirunavai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvithuvakodu",d:"Abhayapradhaya Perumal",l:"Thiruvithuvakodu, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruvithuvakodu Divya Desam temple",c:[10.8300,76.2800],h:"Thiruvithuvakodu is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkatkarai",d:"Katkaraswami Perumal",l:"Thrikkakara, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thirukkatkarai Divya Desam temple",c:[10.0300,76.3300],h:"Thirukkatkarai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumoozhikkalam",d:"Sookthinatha Perumal",l:"Thirumoozhikkulam, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thirumoozhikkalam Divya Desam temple",c:[10.1100,76.4100],h:"Thirumoozhikkalam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvallavazh",d:"Vallabhaswami Perumal",l:"Thiruvalla, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruvallavazh Divya Desam temple",c:[9.3800,76.5700],h:"Thiruvallavazh is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkodithanam",d:"Amruthanarayana Perumal",l:"Thrikkodithanam, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thirukkodithanam Divya Desam temple",c:[9.4400,76.5600],h:"Thirukkodithanam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruchengundrur",d:"Imayavarappan Perumal",l:"Chengannur, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruchengundrur Divya Desam temple",c:[9.3200,76.6200],h:"Thiruchengundrur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppuliyur",d:"Maayapiran Perumal",l:"Thripuliyur, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruppuliyur Divya Desam temple",c:[9.2900,76.5000],h:"Thiruppuliyur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvaranvilai",d:"Parthasarathy Perumal",l:"Aranmula, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruvaranvilai Divya Desam temple",c:[9.3300,76.6800],h:"Thiruvaranvilai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvanvandoor",d:"Paambanaiyappan Perumal",l:"Thiruvanvandoor, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruvanvandoor Divya Desam temple",c:[9.3400,76.5700],h:"Thiruvanvandoor is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvananthapuram",d:"Ananthapadmanabhaswami Perumal",l:"Thiruvananthapuram, Kerala",r:"Malai Nadu",a:"Azhwars",y:"Thiruvananthapuram Divya Desam temple",c:[8.4830,76.9560],h:"Thiruvananthapuram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvattaru",d:"Adhikesava Perumal",l:"Thiruvattar, Kanyakumari, Tamil Nadu",r:"Malai Nadu",a:"Azhwars",y:"Thiruvattaru Divya Desam temple",c:[8.3700,77.3000],h:"Thiruvattaru is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvanparisaram",d:"Thiruvazhmarbhan Perumal",l:"Thiruppathisaram, Kanyakumari, Tamil Nadu",r:"Malai Nadu",a:"Azhwars",y:"Thiruvanparisaram Divya Desam temple",c:[8.1900,77.4300],h:"Thiruvanparisaram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkurungudi",d:"Azhagiya Nambi Perumal",l:"Thirukkurungudi, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkurungudi Divya Desam temple",c:[8.4400,77.5500],h:"Thirukkurungudi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirucheeravaramangai",d:"Thothadhrinatha Perumal",l:"Nanguneri, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirucheeravaramangai Divya Desam temple",c:[8.4900,77.6600],h:"Thirucheeravaramangai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvaigundam",d:"Vaikuntanatha Perumal",l:"Srivaikuntam, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruvaigundam Divya Desam temple",c:[8.6300,77.9100],h:"Thiruvaigundam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvaragunamangai",d:"Vijayasana Perumal",l:"Natham, Thoothukudi, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruvaragunamangai Divya Desam temple",c:[8.6800,78.0500],h:"Thiruvaragunamangai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppuliangudi",d:"Kaaichina Vendhan Perumal",l:"Thirupulingudi, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruppuliangudi Divya Desam temple",c:[8.6600,78.0000],h:"Thiruppuliangudi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirutholaivillimangalam",d:"Aravindalochana Perumal",l:"Tholavillimangalam, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirutholaivillimangalam Divya Desam temple",c:[8.6700,78.0300],h:"Thirutholaivillimangalam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkulandai",d:"Srinivasa Perumal",l:"Perungulam, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkulandai Divya Desam temple",c:[8.6200,78.0200],h:"Thirukkulandai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkolur",d:"Vaithamanithi Perumal",l:"Thirukolur, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkolur Divya Desam temple",c:[8.6100,78.0200],h:"Thirukkolur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirupperai",d:"Makara Nedungkuzhai Kathar Perumal",l:"Thenthiruperai, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirupperai Divya Desam temple",c:[8.5900,78.0100],h:"Thirupperai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkurugur",d:"Aadhinatha Perumal",l:"Alwarthirunagari, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkurugur Divya Desam temple",c:[8.6000,77.9400],h:"Thirukkurugur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Srivilliputhur",d:"Vatapatrasayee Perumal",l:"Srivilliputhur, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruvatputru Srivilliputhur Divya Desam temple",c:[9.5125,77.6352],h:"Thiruvatputru Srivilliputhur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruthangal",d:"Ninra Narayana Perumal",l:"Thiruthankal, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruthangal Divya Desam temple",c:[9.4700,77.8000],h:"Thiruthangal is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkoodal",d:"Koodal Azhagar Perumal",l:"Madurai, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkoodal Divya Desam temple",c:[9.9215,78.1170],h:"Thirukkoodal is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumaliruncholai",d:"Kallazhagar Perumal",l:"Alagar Koyil, Madurai, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirumaliruncholai Divya Desam temple",c:[10.1200,78.2600],h:"Thirumaliruncholai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumogur",d:"Kalamega Perumal",l:"Thirumohur, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirumogur Divya Desam temple",c:[9.9700,78.2000],h:"Thirumogur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkoshtiyur",d:"Sowmyanarayana Perumal",l:"Thirukoshtiyur, Sivaganga, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirukkoshtiyur Divya Desam temple",c:[9.9600,78.5600],h:"Thirukkoshtiyur is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruppullani",d:"Kalyana Jagannatha Perumal",l:"Thirupullani, Ramanathapuram, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thiruppullani Divya Desam temple",c:[9.3200,79.1900],h:"Thiruppullani is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirumeyyam",d:"Sathyagirinatha Perumal",l:"Thirumayam, Pudukkottai, Tamil Nadu",r:"Pandiya Nadu",a:"Azhwars",y:"Thirumeyyam Divya Desam temple",c:[10.2500,78.7500],h:"Thirumeyyam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvayodhi",d:"Ramachandra Perumal",l:"Ayodhya, Uttar Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Thiruvayodhi Divya Desam temple",c:[26.8000,82.2000],h:"Thiruvayodhi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Naimisaranyam",d:"Devaraja Perumal",l:"Naimisharanya, Uttar Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Naimisaranyam Divya Desam temple",c:[27.4300,80.5000],h:"Naimisaranyam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirupruthi",d:"Paramapurusha Perumal",l:"Jyotirmath, Uttarakhand",r:"Vada Nadu",a:"Azhwars",y:"Thirupruthi Divya Desam temple",c:[30.5600,79.5600],h:"Thirupruthi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirukkandamenum Kadinagar",d:"Purushottama Perumal",l:"Devaprayag, Uttarakhand",r:"Vada Nadu",a:"Azhwars",y:"Thirukkandamenum Kadinagar Divya Desam temple",c:[30.1500,78.6000],h:"Thirukkandamenum Kadinagar is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvadari",d:"Badrinarayana Perumal",l:"Badrinath, Uttarakhand",r:"Vada Nadu",a:"Azhwars",y:"Thiruvadari Divya Desam temple",c:[30.7430,79.4930],h:"Thiruvadari is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiru Saligramam",d:"Srimurti Perumal",l:"Muktinath, Mustang, Nepal",r:"Vada Nadu",a:"Azhwars",y:"Thiru Saligramam Divya Desam temple",c:[28.8160,83.8700],h:"Thiru Saligramam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvadamadurai",d:"Govardhanagiridhari Perumal",l:"Mathura, Uttar Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Thiruvadamadurai Divya Desam temple",c:[27.4924,77.6737],h:"Thiruvadamadurai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvaipadi",d:"Nava Mohana Perumal",l:"Gokul, Uttar Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Thiruvaipadi Divya Desam temple",c:[27.4500,77.7200],h:"Thiruvaipadi is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Tiru Dwarkai",d:"Dwarkadeesh Perumal",l:"Dwarka, Gujarat",r:"Vada Nadu",a:"Azhwars",y:"Tiru Dwarkai Divya Desam temple",c:[22.2442,68.9685],h:"Tiru Dwarkai is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Singavelkundram",d:"Narasimha Perumal",l:"Ahobilam, Andhra Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Singavelkundram Divya Desam temple",c:[15.1350,78.7200],h:"Singavelkundram is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruvenkatam",d:"Venkateswara Perumal",l:"Tirumala, Andhra Pradesh",r:"Vada Nadu",a:"Azhwars",y:"Thiruvenkatam Divya Desam temple",c:[13.6830,79.3470],h:"Thiruvenkatam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thirupparkadal",d:"Ksheerabdi Nathan",l:"Celestial abode (not an earthly travel destination)",r:"Celestial",a:"Azhwars",y:"Thirupparkadal Divya Desam temple",c:null,h:"Thirupparkadal is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."},
+{n:"Thiruparamapadam",d:"Paramapadanathan",l:"Sri Vaikuntha (celestial abode; not an earthly travel destination)",r:"Celestial",a:"Azhwars",y:"Thiruparamapadam Divya Desam temple",c:null,h:"Thiruparamapadam is traditionally counted among the 108 Divya Desams praised in the Nalayira Divya Prabandham. The location and deity name here are provided as a pilgrimage reference; please verify local temple timings and route details before travel."}
+];
+
+const ALVARS=[
+["Nammalvar","8th–9th c. · Alwar Thirunagari","The greatest of the Alvars; his Tiruvaymoli is the crown of the Divya Prabandham, equated with the Vedas."],
+["Thirumangai Azhwar","8th c. · Thirukuraiyalur","A chieftain turned saint; he hymned the most Divya Desams and built the prakara of Srirangam."],
+["Andal","8th c. · Srivilliputhur","The only woman Alvar; her Tiruppavai and Nachiyar Tirumoli are sung in every Vaishnava home."],
+["Periyazhwar","8th c. · Srivilliputhur","Father of Andal; composed the Periyazhwar Tirumoli and the lullaby to Krishna."],
+["Tirumazhisai Azhwar","8th c. · Thirumazhisai","His Nanmugan Tiruvandadi bridges the Tamil and Sanskrit Vedic traditions."],
+["Boothathazhwar","7th c. · Mahabalipuram","Composer of the Mudal Tiruvandadi; sang from the shores of Mallai."],
+["Peyazhwar","7th c. · Mylapore","His Mootra Tiruvandadi glows with the vision of Narasimha's form."],
+["Tiruppaanazhwar","8th c. · Srirangam","Born in the Panar community; his Amalanadhipiran paints Ranganatha in ten perfect verses."],
+["Kulasekhara Azhwar","9th c. · Kerala","The Chera king who composed Perumal Tirumoli and is revered in both Tamil and Malayalam traditions."],
+["Nathamuni","10th c. · Kattumannarkoil","Not an Alvar but the first acharya who gathered and set to music all 4,000 Divya Prabandham verses."],
+["Madhurakavi Azhwar","8th c. · Thirukkoloor","His Kanninun Siruthambu — twelve verses of devotion to Nammalvar — opens the Prabandham canon."],
+["Tondaradippodi Azhwar","8th c. · Thirumandangudi","The gardener-saint of Srirangam; his Tirumalai and Tiruppalliezhuchi wake and garland the Lord."]
+];
+
+/* ================= STORAGE ================= */
+const K={v:'dy_visits',n:'dy_notes',p:'dy_photos',s:'dy_state'};
+const store={
+  get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},
+  set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
+};
+let visits=store.get(K.v,{}), notes=store.get(K.n,{}), photos=store.get(K.p,{});
+let state=store.get(K.s,{view:'cards',idx:0,q:'',region:'',sort:'no',vis:'all'});
+const saveAll=()=>{store.set(K.v,visits);store.set(K.n,notes);store.set(K.p,photos);store.set(K.s,state);};
+const slug=i=>T[i].n.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+const imgURL=i=>`https://upload.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(slug(i))}.jpg?width=900`;
+const photoOf=i=>(photos[T[i].n]&&photos[T[i].n].src)||imgURL(i);
+
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s);
+const toastEl=$('#toast');let toastT;
+function toast(m){toastEl.textContent=m;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),2400);}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ================= FILTERING ================= */
+let LIST=[];
+function applyFilter(){
+  const q=state.q.toLowerCase();
+  LIST=T.map((t,i)=>i).filter(i=>{
+    const t=T[i];
+    if(state.region&&t.r!==state.region)return false;
+    if(state.vis==='visited'&&!visits[t.n])return false;
+    if(state.vis==='unvisited'&&visits[t.n])return false;
+    if(state.vis==='noted'&&!(notes[t.n]||'').trim())return false;
+    if(state.vis==='photos'&&!(photos[t.n]&&photos[t.n].src))return false;
+    if(state.vis==='celestial'&&t.r!=='Celestial')return false;
+    if(q&&!(t.n+' '+t.d+' '+t.l+' '+t.r+' '+t.a).toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(state.sort==='az')LIST.sort((a,b)=>T[a].n.localeCompare(T[b].n));
+  if(state.sort==='unv')LIST.sort((a,b)=>(visits[T[a].n]?1:0)-(visits[T[b].n]?1:0));
+  if(state.sort==='vis')LIST.sort((a,b)=>(visits[T[b].n]?1:0)-(visits[T[a].n]?1:0));
+  state.idx=Math.max(0,Math.min(state.idx,LIST.length-1));
+}
+
+/* ================= PROGRESS ================= */
+const CIRC=2*Math.PI*40;
+function milestones(){
+  const v=Object.keys(visits).length;
+  if(v>=108)return"Yatra purna! All 108 Divya Desams visited — Sri Vaikuntam awaits. 🙏";
+  if(v>=72)return"Two-thirds of the yatra complete — the Alvars walk with you!";
+  if(v>=36)return"One third of the sacred circuit done — keep going, yatri!";
+  if(v>=9)return"Nine shrines blessed — the Prabandham path is unfolding.";
+  if(v>=1)return"The first Divya Desam is marked — a yatra of 108 has begun.";
+  return"Your yatra awaits — mark your first Divya Desam.";
+}
+function refreshProgress(){
+  const v=Object.keys(visits).length, pct=v/108;
+  $('#ringFg').style.strokeDasharray=CIRC;
+  $('#ringFg').style.strokeDashoffset=CIRC*(1-pct);
+  $('#ringNum').textContent=v;
+  $('#progBar').style.width=(pct*100)+'%';
+  $('#progTitle').textContent=milestones();
+  $('#progSub').textContent=`${v} of 108 visited · ${Math.round(pct*100)}% of the sacred circuit · data auto-saved on this device.`;
+  const regions=[...new Set(T.map(t=>t.r))];
+  $('#pctChips').innerHTML=regions.map(r=>{
+    const tot=T.filter(t=>t.r===r).length, got=T.filter(t=>t.r===r&&visits[t.n]).length;
+    return `<span class="chip">${r} <b>${got}/${tot}</b></span>`;
+  }).join('');
+}
+
+/* ================= CARD RENDER ================= */
+let curIdx=-1;
+function renderCard(listPos){
+  const deck=$('#deck');
+  if(!LIST.length){deck.innerHTML=`<div class="tcard" style="display:grid;place-items:center;text-align:center;padding:2rem"><div><h3 style="font-family:var(--disp);color:var(--gold2)">No temples match</h3><p style="color:var(--sand);margin-top:.5rem;font-size:.85rem">Try clearing search or filters.</p></div></div>`;$('#posNow').textContent=0;return;}
+  const i=LIST[listPos], t=T[i];
+  const yt=`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(t.y+' divya prabandham')}&rel=0`;
+  deck.innerHTML=`
+  <article class="tcard ${visits[t.n]?'visited':''}" id="card">
+    <span class="doneBadge">✓ DARSHAN DONE</span>
+    <span class="cnum">${String(i+1).padStart(2,'0')}</span>
+    <div class="cgrid">
+      <div class="cphoto" id="cphoto">
+        <img id="mainImg" src="${esc(photoOf(i))}" alt="${esc(t.n)}" loading="lazy">
+        <div class="phFb"><span>ॐ</span></div>
+        <span class="phCount" id="phCount">📷 +</span>
+        <div class="thumbStrip" id="thumbs"></div>
+      </div>
+      <div class="cbody">
+        <div>
+          <h3>${esc(t.n)}</h3>
+          <p class="loc">📍 ${esc(t.l)} &nbsp;·&nbsp; <b style="color:var(--gold)">${esc(t.d)}</b></p>
+        </div>
+        <div class="meta">
+          <span>${esc(t.r)}</span><span class="alvar">🎶 ${esc(t.a)}</span><span>#${i+1} of 108</span>
+        </div>
+        <p class="hist">${esc(t.h)}</p>
+        <div class="vrow">
+          <label class="vlabel"><input type="checkbox" id="chk" ${visits[t.n]?'checked':''}><span class="vbox">✓</span><span class="vtxt">${visits[t.n]?'Visited':'Mark as visited'}</span></label>
+          <button class="actBtn" id="bPhoto">📷 Add photo</button>
+          <button class="actBtn" id="bDir">🧭 Directions</button>
+          <button class="actBtn" id="bWiki">📖 More</button>
+          <button class="actBtn red" id="bDel" style="display:none">🗑 Photo</button>
+        </div>
+        <div class="noteBox">
+          <label>📝 Yatra notes</label>
+          <textarea id="note" placeholder="Darshan timings, feelings, offering details…">${esc(notes[t.n]||'')}</textarea>
+          <span class="saveHint" id="saveHint">✓ saved</span>
+        </div>
+        <div class="ytWrap"><div class="ytLabel">🎧 Listen — hymns & temple history</div><iframe loading="lazy" src="${yt}" title="YouTube" allow="accelerometer; autoplay; encrypted-media" allowfullscreen></iframe></div>
+      </div>
+    </div>
+  </article>`;
+  $('#posNow').textContent=listPos+1;
+  $('#posTotal').textContent=LIST.length;
+  $('#posRegion').textContent=t.r;
+  wireCard(i);
+}
+function wireCard(i){
+  const t=T[i],card=$('#card'),chk=$('#chk'),note=$('#note');
+  const mainImg=$('#mainImg');
+  mainImg.onerror=()=>mainImg.parentElement.classList.add('noph');
+  const refreshThumbs=()=>{
+    const p=photos[t.n];$('#bDel').style.display=(p&&p.src)?'inline-block':'none';
+    $('#phCount').textContent=p&&p.src?'📷 your photo':'📷 +';
+  };refreshThumbs();
+  chk.onchange=()=>{
+    if(chk.checked){visits[t.n]=Date.now();toast('🙏 '+t.n+' marked visited!');}
+    else delete visits[t.n];
+    card.classList.toggle('visited',chk.checked);
+    chk.nextElementSibling.nextElementSibling.textContent=chk.checked?'Visited':'Mark as visited';
+    saveAll();refreshProgress();
+  };
+  let noteT;
+  note.oninput=()=>{clearTimeout(noteT);noteT=setTimeout(()=>{notes[t.n]=note.value;saveAll();
+    const h=$('#saveHint');h.classList.add('on');setTimeout(()=>h.classList.remove('on'),1200);},600);};
+  $('#bPhoto').onclick=()=>{
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=e=>{
+      const f=e.target.files[0];if(!f)return;
+      const rd=new FileReader();
+      rd.onload=()=>{const im=new Image();im.onload=()=>{
+        const c=document.createElement('canvas');const s=Math.min(1,900/im.width);
+        c.width=im.width*s;c.height=im.height*s;
+        c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+        try{photos[t.n]={src:c.toDataURL('image/jpeg',.72),name:t.n,ts:Date.now()};saveAll();refreshThumbs();mainImg.src=photos[t.n].src;mainImg.parentElement.classList.remove('noph');toast('📷 Photo saved to '+t.n);}
+        catch(err){toast('Photo too large — try a smaller image');}
+      };im.src=rd.result;};
+      rd.readAsDataURL(f);
+    };inp.click();
+  };
+  $('#bDel').onclick=()=>{delete photos[t.n];saveAll();refreshThumbs();mainImg.src=imgURL(i);toast('Photo removed');};
+  $('#bDir').onclick=()=>{if(!t.c){toast('This is a celestial abode, not an earthly travel destination.');return;}window.open(`https://www.openstreetmap.org/directions?to=${t.c[0]}%2C${t.c[1]}`,'_blank');};
+  $('#bWiki').onclick=()=>window.open(WIKI(t.n),'_blank');
+  mainImg.onclick=()=>openLB(mainImg.src,t.n+' · '+t.l);
+  /* swipe */
+  let sx=0,dx=0,drag=false;
+  card.addEventListener('pointerdown',e=>{if(/(INPUT|TEXTAREA|IFRAME|BUTTON|A|IMG)/.test(e.target.tagName))return;
+    drag=true;sx=e.clientX;dx=0;card.classList.add('dragging');card.setPointerCapture(e.pointerId);});
+  card.addEventListener('pointermove',e=>{if(!drag)return;dx=e.clientX-sx;
+    card.style.transform=`translateX(${dx}px) rotate(${dx/32}deg)`;card.style.opacity=1-Math.min(Math.abs(dx)/420,.5);});
+  const end=()=>{if(!drag)return;drag=false;card.classList.remove('dragging');
+    if(Math.abs(dx)>90){const dir=dx<0?1:-1;slide(dir);}else{card.style.transform='';card.style.opacity='';}dx=0;};
+  card.addEventListener('pointerup',end);card.addEventListener('pointercancel',end);
+}
+function slide(dir){
+  const old=$('#card');
+  if(old){old.style.transform=`translateX(${-dir*110}%) rotate(${-dir*6}deg)`;old.style.opacity='0';}
+  state.idx=(state.idx+dir+LIST.length)%LIST.length;saveAll();
+  setTimeout(()=>renderCard(state.idx),180);
+}
+function goToGlobal(gi){
+  applyFilter();
+  const p=LIST.indexOf(gi);
+  if(p<0){state.q='';state.region='';state.vis='all';applyFilter();}
+  state.idx=Math.max(0,LIST.indexOf(gi));saveAll();
+  setView('cards');renderCard(state.idx);window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= GALLERY ================= */
+function renderGallery(){
+  const g=$('#gGrid');
+  g.innerHTML=T.map((t,i)=>`
+    <div class="gItem ${visits[t.n]?'visited':''}" data-gi="${i}">
+      <span class="gBadge">VISITED</span><span class="gNo">#${i+1}</span>
+      <img class="gTop" src="${esc(photoOf(i))}" loading="lazy" onerror="this.outerHTML='<div class=gTop><span>ॐ</span></div>'">
+      <div class="gTxt"><b>${esc(t.n)}</b><small>${esc(t.l)}</small></div>
+    </div>`).join('');
+  $('#gCount').textContent=`All ${T.length} Divya Desams — tap any tile to open its place card.`;
+  g.querySelectorAll('.gItem').forEach(el=>el.onclick=()=>goToGlobal(+el.dataset.gi));
+}
+
+/* ================= ALVARS ================= */
+function renderAlvars(){
+  $('#almGrid').innerHTML=ALVARS.map(a=>`
+    <div class="almCard"><h4>${a[0]}</h4><div class="almE">${a[1]}</div><p>${a[2]}</p></div>`).join('');
+}
+
+/* ================= MAP ================= */
+let map=null,markers={};
+function makeIcon(t){
+  return L.divIcon({className:'',iconSize:[26,30],iconAnchor:[13,28],popupAnchor:[0,-24],
+    html:`<span class="mk ${visits[t.n]?'vis':''}"><i></i></span>`});
+}
+function initMap(){
+  if(map)return;
+  map=L.map('map',{scrollWheelZoom:true}).setView([14.5,79],5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
+    attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+  T.forEach((t,i)=>{
+    if(!t.c)return; // celestial abodes are not physical map destinations
+    const m=L.marker(t.c,{icon:makeIcon(t)}).addTo(map);
+    m.bindPopup(`<div class="mkPop"><b>${esc(t.n)}</b><br><small>${esc(t.d)} · ${esc(t.l)}</small>
+      <div class="popRow"><button class="bOpen" onclick="goToGlobal(${i})">Open card →</button>
+      <button class="bDir" onclick="window.open('https://www.openstreetmap.org/directions?to=${t.c[0]},${t.c[1]}','_blank')">Directions</button></div></div>`,{maxWidth:250});
+    markers[i]=m;
+  });
+}
+function refreshMapIcons(){if(!map)return;T.forEach((t,i)=>{if(markers[i])markers[i].setIcon(makeIcon(t));});}
+function fitList(arr){if(!map)return;const pts=arr.map(i=>T[i].c).filter(Boolean);if(!pts.length)return;
+  map.fitBounds(L.latLngBounds(pts).pad(0.2),{maxZoom:11});}
+
+/* ================= VIEWS ================= */
+const tabEls=[];
+function setView(v){
+  state.view=v;saveAll();
+  document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id==='view-'+v));
+  document.querySelectorAll('.vtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  if(v==='map'){setTimeout(()=>{initMap();map.invalidateSize();fitList(LIST);},60);}
+  if(v==='gallery')renderGallery();
+}
+function buildTabs(){
+  const nav=document.createElement('nav');
+  nav.style.cssText='max-width:1180px;margin:.9rem auto 0;padding:0 1rem;display:flex;gap:.4rem;flex-wrap:wrap';
+  [['cards','🛕 Place Cards'],['gallery','🧭 All 108'],['map','🗺 Map'],['alvars','🌸 The Alvars']].forEach(([v,lb])=>{
+    const b=document.createElement('button');b.className='tchip vtab';b.dataset.v=v;b.textContent=lb;
+    b.onclick=()=>setView(v);nav.appendChild(b);
+  });
+  $('.controls').after(nav);
+}
+
+/* ================= LIGHTBOX ================= */
+function openLB(src,cap){$('#lbImg').src=src;$('#lbCap').textContent=cap;$('#lightbox').classList.add('on');}
+$('#lbClose').onclick=()=>$('#lightbox').classList.remove('on');
+$('#lightbox').onclick=e=>{if(e.target.id==='lightbox')$('#lightbox').classList.remove('on');};
+
+/* ================= CONTROLS WIRING ================= */
+$('#regionSel').innerHTML='<option value="">All regions</option>'+[...new Set(T.map(t=>t.r))].map(r=>`<option>${r}</option>`).join('');
+$('#q').value=state.q;$('#regionSel').value=state.region;$('#sortSel').value=state.sort;
+document.querySelectorAll('.tchip[data-v]').forEach(c=>{
+  if(c.dataset.v===state.vis)c.classList.add('on');
+  c.onclick=()=>{
+    if(c.dataset.v==='gold'){toast(milestones());return;}
+    document.querySelectorAll('.tchip[data-v]').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');state.vis=c.dataset.v;state.idx=0;saveAll();
+    applyFilter();renderCard(state.idx);
+    if(state.view==='gallery')renderGallery();
+  };
+});
+$('#q').addEventListener('input',e=>{state.q=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);});
+$('#regionSel').onchange=e=>{state.region=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);if(state.view==='gallery')renderGallery();};
+$('#sortSel').onchange=e=>{state.sort=e.target.value;state.idx=0;saveAll();applyFilter();renderCard(state.idx);};
+$('#btnPrev').onclick=()=>slide(-1);
+$('#btnNext').onclick=()=>slide(1);
+document.addEventListener('keydown',e=>{
+  if(/(INPUT|TEXTAREA)/.test(document.activeElement.tagName))return;
+  if(e.key==='ArrowRight')slide(1);
+  if(e.key==='ArrowLeft')slide(-1);
+});
+$('#fitAll').onclick=()=>{if(map){map.setView([14.5,79],5);fitList(T.map((_,i)=>i).filter(i=>T[i].r!=='Celestial'));}};
+$('#fitSel').onclick=()=>fitList(LIST);
+$('#goldBtn').onclick=()=>{const v=Object.keys(visits).length;toast(milestones());};
+
+/* ================= PWA ================= */
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.warn('PWA offline worker could not be registered:', err);
+    });
+  });
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  $('#installBtn').style.display = 'inline-block';
+});
+window.addEventListener('appinstalled', () => {
+  $('#installBtn').style.display = 'none';
+  deferredPrompt = null;
+});
+$('#installBtn').onclick = async () => {
+  if (!deferredPrompt) {
+    toast('Use your browser menu and choose Install app / Add to Home Screen.');
+    return;
+  }
+  deferredPrompt.prompt();
+  const result = await deferredPrompt.userChoice;
+  if (result.outcome === 'accepted') $('#installBtn').style.display = 'none';
+  deferredPrompt = null;
+};
+
+/* ================= AMBIENT ================= */
+const em=$('#embers');
+for(let i=0;i<14;i++){const s=document.createElement('span');s.className='ember';
+  s.style.left=(Math.random()*100)+'vw';s.style.setProperty('--dx',(Math.random()*120-60)+'px');
+  s.style.animationDuration=(11+Math.random()*14)+'s';s.style.animationDelay=(-Math.random()*20)+'s';
+  s.style.transform=`scale(${.5+Math.random()})`;em.appendChild(s);}
+const yt=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+$('#todayYatra').textContent='Yatra day · '+yt;
+
+/* ================= INIT ================= */
+buildTabs();
+applyFilter();
+refreshProgress();
+renderAlvars();
+setView(state.view||'cards');
+renderCard(state.idx);
+</script>
+</body>
+</html>
